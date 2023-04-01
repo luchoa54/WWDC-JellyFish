@@ -22,7 +22,7 @@ class GameScene: SKScene {
         setupGame()
         addSwipeGestureRecognizer()
         
-        objectSpawner()
+
     }
     
     func setupGame(){
@@ -31,7 +31,7 @@ class GameScene: SKScene {
         player.fillColor = .blue
         player.strokeColor = .blue
         player.zPosition = 1
-        
+        print(UIScreen.main.bounds.midX)
         enemy.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY + 400)
         enemy.fillColor = .red
         enemy.strokeColor = .red
@@ -51,16 +51,10 @@ class GameScene: SKScene {
         }
     }
     
-    func objectSpawner(){
-        
-        let positionIndex = Int.random(in: 0...2)
-        let objectXPosition = [512, 812, 212]
-        
-        let target = ObstacleNode(position: CGPoint(x: Double(objectXPosition[positionIndex]), y: UIScreen.main.bounds.midY))
-        
-        self.addChild(target)
-        
-        target.run(SKAction.move(to: CGPoint(x: Double(objectXPosition[positionIndex]), y: 1000), duration: 8))
+    func createObstacle(){
+        let obstacle = ObstacleNode()
+        obstacle.position = CGPoint(x: 0, y: 0)
+        obstacle.run(.move(by: CGVector(dx: 0, dy: 0), duration: 0))
     }
     
     @objc func handleSwipe(gesture: UIGestureRecognizer){

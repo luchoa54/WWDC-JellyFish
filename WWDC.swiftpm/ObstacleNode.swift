@@ -8,37 +8,23 @@
 import Foundation
 import SpriteKit
 
-enum ObstacleType {
-    case log, rock, boat
+class ObstacleNode: SKSpriteNode{
     
-    var color: UIColor{
-        switch self{
-        case .log:
-            return .brown
-        case .rock:
-            return .systemGray
-        case .boat:
-            return .yellow
-        }
-    }
-}
-
-class ObstacleNode: SKShapeNode {
+    let spriteTextures = [
+        SKTexture(imageNamed: "Jelly(white)"),
+        SKTexture(imageNamed: "Jelly(white)"),
+        SKTexture(imageNamed: "Jelly(white)"),
+    ]
     
-    var type = ObstacleType.rock
-    var movingVector = CGPoint(x: 0, y: 0)
-    
-    init(position: CGPoint) {
-        super.init()
+    init() {
+        let randomSprite = Int.random(in: 0...spriteTextures.count)
+        let spriteTexture = spriteTextures[randomSprite]
         
-        self.strokeColor = type.color
-        self.fillColor = type.color
-        self.position = position
+        super.init(texture: spriteTexture, color: .clear, size: spriteTexture.size())
         
-        self.physicsBody!.affectedByGravity = false
-        self.physicsBody?.isDynamic = false
+        zPosition = 3
         
-        
+        isUserInteractionEnabled = false
     }
     
     required init?(coder aDecoder: NSCoder) {
