@@ -3,21 +3,10 @@ import SpriteKit
 
 struct ContentView: View {
     
-    var scene: SKScene {
-        let scene = GameScene()
-        scene.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
-        scene.scaleMode = .fill
-        scene.view?.showsPhysics = true
-        return scene
-    }
-    
     var body: some View {
-        
-        GeometryReader { (geometry) in
-            SpriteView(scene: self.scene)
-                .ignoresSafeArea()
-                .frame(width: geometry.size.width, height: geometry.size.height, alignment: .center)
-        }
+        SpriteView(scene: GameController.shared.initialScene)
+            .statusBarHidden(true)
+            .ignoresSafeArea()
     }
 }
 
