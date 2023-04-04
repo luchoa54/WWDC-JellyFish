@@ -11,6 +11,12 @@ import UIKit
 
 class GameScene: SKScene, SKPhysicsContactDelegate{
     
+    class func newScene() -> GameScene {
+        let scene = GameScene(size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+        scene.scaleMode = .aspectFill
+        return scene
+    }
+    
     let player: SKShapeNode = SKShapeNode(rectOf: CGSize(width: 100, height: 100))
     let enemy = JellyNode()
     let oceanNode = SKShapeNode(rectOf: CGSize(width: 1100, height: 1100))
@@ -178,7 +184,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     
     public func testContactPlayerWithObstacle(_ contactMaks:UInt32, contact: SKPhysicsContact) {
         if contactMaks == .player | .obstacle {
-            contact.bodyB.node?.removeFromParent()
+            view?.presentScene(GameOverScene.newScene())
         }
     }
 }
