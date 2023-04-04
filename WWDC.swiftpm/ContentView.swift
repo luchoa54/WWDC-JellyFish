@@ -7,6 +7,7 @@ struct ContentView: View {
         let scene = GameScene()
         scene.size = CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height)
         scene.scaleMode = .fill
+        scene.view?.showsPhysics = true
         return scene
     }
     
