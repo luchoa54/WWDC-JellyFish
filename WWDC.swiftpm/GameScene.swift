@@ -39,6 +39,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         physicsWorld.contactDelegate = self
         physicsWorld.gravity = .zero
         
+        backgroundColor = .white
+        
         createOcean()
         createPlayer()
         createJellyFish()

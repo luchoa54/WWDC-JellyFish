@@ -46,7 +46,7 @@ class GameOverScene: SKScene {
     }()
     
     lazy var backToMenuButton: ButtonNode = {
-        let button = ButtonNode(buttonTexture: "playButton") { [weak self] in
+        let button = ButtonNode(buttonType: .play) { [weak self] in
             self?.view?.presentScene(MainMenuScene.newScene())
         }
         

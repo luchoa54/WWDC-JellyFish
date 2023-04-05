@@ -7,17 +7,43 @@
 
 import Foundation
 import SpriteKit
- 
+
+enum ButtonType {
+    case play, about
+}
+
 class ButtonNode: SKSpriteNode {
-    let buttonTexture: SKTexture
+    let buttonAnimation : [SKTexture] = [
+        SKTexture(imageNamed: "buttonPlay0"),
+        SKTexture(imageNamed: "buttonPlay1"),
+        SKTexture(imageNamed: "buttonPlay2")
+    ]
+    
+    let buttonAboutAnimation : [SKTexture] = [
+        SKTexture(imageNamed: "buttonAbout0"),
+        SKTexture(imageNamed: "buttonAbout1"),
+        SKTexture(imageNamed: "buttonAbout2"),
+    ]
     let action: () -> Void
     
-    init(buttonTexture: String, action : @escaping () -> Void){
-        self.buttonTexture = SKTexture(imageNamed: buttonTexture)
-        self.buttonTexture.filteringMode = .nearest
+    init(buttonType: ButtonType, action : @escaping () -> Void){
+        var texture : SKTexture
+        var textureAnimation: [SKTexture]
+        
+        switch buttonType {
+        case .play :
+            texture = buttonAnimation[0]
+            textureAnimation = buttonAnimation
+        case .about :
+            texture = buttonAboutAnimation[0]
+            textureAnimation = buttonAboutAnimation
+        }
+        
         self.action = action
         
-        super.init(texture: self.buttonTexture, color: .clear, size: self.buttonTexture.size())
+        super.init(texture: texture, color: .clear, size: texture.size())
+        
+        run(.repeatForever(.animate(with: textureAnimation, timePerFrame: 0.1)))
         
         isUserInteractionEnabled = true
     }

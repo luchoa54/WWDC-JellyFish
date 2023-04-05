@@ -11,7 +11,7 @@ import SpriteKit
 class JellyNode: SKSpriteNode {
     
     init() {
-        let texture = SKTexture(imageNamed: "Untitled")
+        let texture = SKTexture(imageNamed: "Jelly")
         super.init(texture: texture, color: .clear, size: CGSize(width: 650, height: 650))
         
         name = "Jelly"

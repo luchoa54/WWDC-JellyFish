@@ -16,54 +16,52 @@ class MainMenuScene: SKScene {
         return scene
     }
     
-    lazy var titleLabel: SKLabelNode = {
-        let label = SKLabelNode(text: "JellyFish \n Attack")
-        
-        let cfURL = Bundle.main.url(forResource: "ShortStack", withExtension: "ttf")! as CFURL
-
-        CTFontManagerRegisterFontsForURL(cfURL, CTFontManagerScope.process, nil)
-
-        
-        label.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY + 150)
-        label.fontColor = .black
-        label.fontSize = 100
-        label.numberOfLines = 2
-        label.fontName = "ShortStack"
-        label.zPosition = 2
-        
-        return label
-    }()
-    
     lazy var backgroundImage: SKSpriteNode = {
-        let texture = SKTexture(imageNamed: "beach")
-        texture.filteringMode = .linear
-        let sprite = SKSpriteNode(texture: texture, color: .clear, size: UIScreen.main.bounds.size)
+        let backgroundTexture: [SKTexture] = [
+            SKTexture(imageNamed: "background0"),
+            SKTexture(imageNamed: "background1"),
+            SKTexture(imageNamed: "background2"),
+        ]
+        let sprite = SKSpriteNode(texture: backgroundTexture[0], size: backgroundTexture[0].size())
         
-        sprite.zPosition = 0
+        sprite.run(.repeatForever(.animate(with: backgroundTexture, timePerFrame: 0.1)))
         sprite.position = CGPoint(x: size.width/2, y: size.height/2)
         
         return sprite
     }()
     
     lazy var playButton: ButtonNode = {
-        let transition = SKTransition.crossFade(withDuration: 2)
-        let button = ButtonNode(buttonTexture: "playButton") { [weak self] in
+        let transition = SKTransition.crossFade(withDuration: 0.5)
+        let button = ButtonNode(buttonType: .play) { [weak self] in
             self?.view?.presentScene(GameScene.newScene(), transition: transition)
         }
         
-        button.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 150)
-        button.size = CGSize(width: 100, height: 100)
+        button.position = CGPoint(x: UIScreen.main.bounds.midX - 20, y: UIScreen.main.bounds.midY - 90)
+        
+        button.zPosition = 1
+        
+        return button
+    }()
+    
+    lazy var aboutButton: ButtonNode = {
+        let transition = SKTransition.crossFade(withDuration: 0.5)
+        let button = ButtonNode(buttonType: .about) { [weak self] in
+            self?.view?.presentScene(AboutScene.newScene(), transition: transition)
+        }
+        
+        button.position = CGPoint(x: UIScreen.main.bounds.midX - 20, y: UIScreen.main.bounds.midY - 250)
+        button.size = CGSize(width: 300, height: 300)
         button.zPosition = 1
         
         return button
     }()
     
     func setupScene(){
-        view?.ignoresSiblingOrder = true
-        backgroundColor = .white
+        view?.ignoresSiblingOrder = false
         
-        addChild(titleLabel)
+        addChild(backgroundImage)
         addChild(playButton)
+        addChild(aboutButton)
     }
     
     override func didMove(to view: SKView) {
