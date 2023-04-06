@@ -46,8 +46,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         createJellyFish()
         createObstacle()
         createCollisionWall()
-        addChild(distanceLabel)
-        addChild(distanceLabel1)
+        addChild(distanceIndicator)
+//        addChild(distanceLabel1)
+        addChild(indicator)
         startDistanceCount()
     }
     
@@ -61,41 +62,51 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         }
     }
     
-    lazy var distanceLabel: SKLabelNode = {
-        let label = SKLabelNode(text: "\(distanceToBeach)")
+    lazy var distanceIndicator: SKSpriteNode = {
+        let texture : [SKTexture] = [
+            SKTexture(imageNamed: "Distance0"),
+            SKTexture(imageNamed: "Distance1"),
+            SKTexture(imageNamed: "Distance2")
+        ]
+        let sprite = SKSpriteNode(texture: texture[0], color: .clear, size: CGSize(width: 500, height: 500))
         
-        let cfURL = Bundle.main.url(forResource: "ShortStack", withExtension: "ttf")! as CFURL
+        sprite.position = CGPoint(x: UIScreen.main.bounds.minX + 160, y: UIScreen.main.bounds.midY - 100)
+        sprite.zPosition = 10
         
-        CTFontManagerRegisterFontsForURL(cfURL,CTFontManagerScope.process,nil)
+        sprite.run(.repeatForever(.animate(with: texture, timePerFrame: 0.1)))
         
-        label.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 650)
-        label.fontColor = .black
-        label.horizontalAlignmentMode = .center
-        label.fontSize = 50
-        label.numberOfLines = 2
-        label.fontName = "ShortStack"
-        label.zPosition = 2
-        
-        return label
+        return sprite
     }()
     
-    lazy var distanceLabel1: SKLabelNode = {
-        let label = SKLabelNode(text: "Distance to beach: ")
+    lazy var indicator: SKShapeNode = {
         
-        let cfURL = Bundle.main.url(forResource: "ShortStack", withExtension: "ttf")! as CFURL
+        let shape = SKShapeNode(circleOfRadius: CGFloat(20))
         
-        CTFontManagerRegisterFontsForURL(cfURL,CTFontManagerScope.process,nil)
+        shape.position = CGPoint(x: UIScreen.main.bounds.minX + 80, y: UIScreen.main.bounds.midY + 60)
         
-        label.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 600)
-        label.fontColor = .black
-        label.horizontalAlignmentMode = .center
-        label.fontSize = 50
-        label.numberOfLines = 2
-        label.fontName = "ShortStack"
-        label.zPosition = 2
+        shape.zPosition = 10
+        shape.fillColor = .red
         
-        return label
+        return shape
     }()
+    
+//    lazy var distanceLabel1: SKLabelNode = {
+//        let label = SKLabelNode(text: "Distance to beach: ")
+//
+//        let cfURL = Bundle.main.url(forResource: "ShortStack", withExtension: "ttf")! as CFURL
+//
+//        CTFontManagerRegisterFontsForURL(cfURL,CTFontManagerScope.process,nil)
+//
+//        label.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 600)
+//        label.fontColor = .black
+//        label.horizontalAlignmentMode = .center
+//        label.fontSize = 50
+//        label.numberOfLines = 2
+//        label.fontName = "ShortStack"
+//        label.zPosition = 2
+//
+//        return label
+//    }()
     
     func createOcean(){
         
@@ -127,7 +138,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         let body = SKPhysicsBody(rectangleOf: CGSize(width: 100, height: 100))
         body.categoryBitMask = .player
         body.collisionBitMask = ~(.contactWithAllCategories(less: [.player, .wall]))
-        body.contactTestBitMask = ~(.contactWithAllCategories(less:[.obstacle, .player, .wall]))
+        body.contactTestBitMask = ~(.contactWithAllCategories(less: [.obstacle, .player, .wall]))
         body.affectedByGravity = false
         
         player.physicsBody = body
@@ -191,7 +202,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     
     @objc func decrementDistance(){
         distanceToBeach -= 1
-        distanceLabel.text = "\(distanceToBeach)"
+//        distanceLabel.text = "\(distanceToBeach)"
+        indicator.position.y -= 2
         
         if distanceToBeach == 130 {
             gameVelocity -= 1
