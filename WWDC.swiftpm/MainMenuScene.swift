@@ -50,7 +50,7 @@ class MainMenuScene: SKScene {
         }
         
         button.position = CGPoint(x: UIScreen.main.bounds.midX - 20, y: UIScreen.main.bounds.midY - 250)
-        button.size = CGSize(width: 300, height: 300)
+        
         button.zPosition = 1
         
         return button

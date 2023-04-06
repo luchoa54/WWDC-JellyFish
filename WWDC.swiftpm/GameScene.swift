@@ -22,16 +22,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     let oceanNode = SKShapeNode(rectOf: CGSize(width: 1100, height: 1100))
     let collisionNode = SKShapeNode(rectOf: CGSize(width: 800, height: 100))
     
-    var spawnCount = 1
-    var speedConstant: CGFloat = 1.2
-    var systemTime : CFTimeInterval = 1.0
+    var distanceToBeach : Int = 150
+    var distanceCount = Timer()
     var playerLane = 0
-    var numberOfWaves = 20
+    var obstacleSpawns = 1
+    var gameVelocity = 5.0
+    var timeVelocity = 0.5
     
     override func didMove(to view: SKView) {
         setupGame()
         addSwipeGestureRecognizer()
-        
     }
     
     func setupGame(){
@@ -46,6 +46,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         createJellyFish()
         createObstacle()
         createCollisionWall()
+        addChild(distanceLabel)
+        addChild(distanceLabel1)
+        startDistanceCount()
     }
     
     func addSwipeGestureRecognizer(){
@@ -57,6 +60,42 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             self.view?.addGestureRecognizer(gestureRecognizer)
         }
     }
+    
+    lazy var distanceLabel: SKLabelNode = {
+        let label = SKLabelNode(text: "\(distanceToBeach)")
+        
+        let cfURL = Bundle.main.url(forResource: "ShortStack", withExtension: "ttf")! as CFURL
+        
+        CTFontManagerRegisterFontsForURL(cfURL,CTFontManagerScope.process,nil)
+        
+        label.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 650)
+        label.fontColor = .black
+        label.horizontalAlignmentMode = .center
+        label.fontSize = 50
+        label.numberOfLines = 2
+        label.fontName = "ShortStack"
+        label.zPosition = 2
+        
+        return label
+    }()
+    
+    lazy var distanceLabel1: SKLabelNode = {
+        let label = SKLabelNode(text: "Distance to beach: ")
+        
+        let cfURL = Bundle.main.url(forResource: "ShortStack", withExtension: "ttf")! as CFURL
+        
+        CTFontManagerRegisterFontsForURL(cfURL,CTFontManagerScope.process,nil)
+        
+        label.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 600)
+        label.fontColor = .black
+        label.horizontalAlignmentMode = .center
+        label.fontSize = 50
+        label.numberOfLines = 2
+        label.fontName = "ShortStack"
+        label.zPosition = 2
+        
+        return label
+    }()
     
     func createOcean(){
         
@@ -115,32 +154,58 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     
     func createObstacle(){
         
-        let obstacleX: [Double] = [212.0, 512.0, 812,0]
-        let randomIndex = Int.random(in: 0...2)
-        let obstacle = ObstacleNode()
-        let warning = SKSpriteNode(imageNamed: "warning")
+        for _ in 1...obstacleSpawns{
+            let obstacleX: [Double] = [212.0, 512.0, 812,0]
+            let randomIndex = Int.random(in: 0...2)
+            let obstacle = ObstacleNode()
+            let warning = SKSpriteNode(imageNamed: "warning")
+            
+            obstacle.position = CGPoint(x: -20, y: 0)
+            warning.position = CGPoint(x: obstacleX[randomIndex], y: 1000)
+            warning.size = CGSize(width: 200, height: 200)
+            warning.zPosition = 5
+            
+            let sequence = SKAction.sequence([.fadeIn(withDuration: 0.5),.fadeOut(withDuration: 0.5), .fadeIn(withDuration: 0.5), .fadeOut(withDuration: 0.5), .fadeIn(withDuration: 0.5),.fadeOut(withDuration: 0.5), .wait(forDuration: 0.5)])
+            
+            addChild(obstacle)
+            addChild(warning)
+            
+            warning.run(sequence, completion: {
+                warning.removeFromParent()
+                obstacle.run(.move(by: CGVector(dx: obstacleX[randomIndex], dy: 1000), duration: 0))
+                obstacle.run(.move(to: CGPoint(x: obstacleX[randomIndex], y: -100), duration: self.gameVelocity))
+                obstacle.run(.resize(toWidth: 200, duration: 0.7))
+                obstacle.run(.resize(toHeight: 200, duration: 0.7))
+            })
+        }
         
-        obstacle.position = CGPoint(x: -20, y: 0)
-        warning.position = CGPoint(x: obstacleX[randomIndex], y: 1000)
-        warning.size = CGSize(width: 200, height: 200)
-        warning.zPosition = 5
-        
-        let sequence = SKAction.sequence([.fadeIn(withDuration: 0.5),.fadeOut(withDuration: 0.5), .fadeIn(withDuration: 0.5), .fadeOut(withDuration: 0.5), .fadeIn(withDuration: 0.5),.fadeOut(withDuration: 0.5), .wait(forDuration: 0.5)])
-        
-        addChild(obstacle)
-        addChild(warning)
-        
-        warning.run(sequence, completion: {
-            warning.removeFromParent()
-            obstacle.run(.move(by: CGVector(dx: obstacleX[randomIndex], dy: 1000), duration: 0))
-            obstacle.run(.move(to: CGPoint(x: obstacleX[randomIndex], y: -100), duration: 4))
-            obstacle.run(.resize(toWidth: 200, duration: 0.7))
-            obstacle.run(.resize(toHeight: 200, duration: 0.7))
-        })
-        
-        run(.wait(forDuration: TimeInterval.random(in: 5...5.5))) {
+        run(.wait(forDuration: TimeInterval.random(in: gameVelocity...(gameVelocity + 0.5)))) {
             [self] in
             createObstacle()
+        }
+    }
+    
+    func startDistanceCount(){
+        distanceCount = Timer.scheduledTimer(timeInterval: timeVelocity, target: self, selector: #selector(decrementDistance), userInfo: nil, repeats: true)
+    }
+    
+    @objc func decrementDistance(){
+        distanceToBeach -= 1
+        distanceLabel.text = "\(distanceToBeach)"
+        
+        if distanceToBeach == 130 {
+            gameVelocity -= 1
+            timeVelocity -= 0.1
+        }
+        
+        if distanceToBeach == 90 {
+            obstacleSpawns += 1
+            gameVelocity -= 1
+            timeVelocity -= 0.2
+        }
+        
+        if distanceToBeach <= 0 {
+            view?.presentScene(VictoryScene.newScene())
         }
     }
     

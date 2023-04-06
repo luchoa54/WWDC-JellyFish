@@ -1,23 +1,23 @@
 //
-//  GameOverScene.swift
+//  VictoryScene.swift
 //  WWDC
 //
-//  Created by Luciano Uchoa on 04/04/23.
+//  Created by Luciano Uchoa on 06/04/23.
 //
 
 import Foundation
 import SpriteKit
 
-class GameOverScene: SKScene {
+class VictoryScene: SKScene {
     
-    class func newScene() -> GameOverScene {
-        let scene = GameOverScene(size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
+    class func newScene() -> VictoryScene {
+        let scene = VictoryScene(size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
         scene.scaleMode = .aspectFill
         return scene
     }
     
     lazy var endLabel: SKLabelNode = {
-        let label = SKLabelNode(text: "Game Over")
+        let label = SKLabelNode(text: "You escaped \n    safely!")
         
         let cfURL = Bundle.main.url(forResource: "ShortStack", withExtension: "ttf")! as CFURL
 
@@ -26,6 +26,7 @@ class GameOverScene: SKScene {
         
         label.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY + 150)
         label.fontColor = .black
+        label.horizontalAlignmentMode = .center
         label.fontSize = 100
         label.numberOfLines = 2
         label.fontName = "ShortStack"
@@ -46,7 +47,7 @@ class GameOverScene: SKScene {
     }()
     
     lazy var backToMenuButton: ButtonNode = {
-        let button = ButtonNode(buttonType: .play) { [weak self] in
+        let button = ButtonNode(buttonType: .about) { [weak self] in
             self?.view?.presentScene(MainMenuScene.newScene())
         }
         
