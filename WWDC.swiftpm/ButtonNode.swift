@@ -9,21 +9,11 @@ import Foundation
 import SpriteKit
 
 enum ButtonType {
-    case play, about
+    case play, about, arrowLeft, arrowRight
 }
 
 class ButtonNode: SKSpriteNode {
-    let buttonAnimation : [SKTexture] = [
-        SKTexture(imageNamed: "buttonPlay0"),
-        SKTexture(imageNamed: "buttonPlay1"),
-        SKTexture(imageNamed: "buttonPlay2")
-    ]
     
-    let buttonAboutAnimation : [SKTexture] = [
-        SKTexture(imageNamed: "buttonAbout0"),
-        SKTexture(imageNamed: "buttonAbout1"),
-        SKTexture(imageNamed: "buttonAbout2"),
-    ]
     let action: () -> Void
     
     init(buttonType: ButtonType, action : @escaping () -> Void){
@@ -32,11 +22,42 @@ class ButtonNode: SKSpriteNode {
         
         switch buttonType {
         case .play :
+            let buttonAnimation : [SKTexture] = [
+                SKTexture(imageNamed: "buttonPlay0"),
+                SKTexture(imageNamed: "buttonPlay1"),
+                SKTexture(imageNamed: "buttonPlay2")
+            ]
+            
             texture = buttonAnimation[0]
             textureAnimation = buttonAnimation
         case .about :
-            texture = buttonAboutAnimation[0]
-            textureAnimation = buttonAboutAnimation
+            
+            let buttonAnimation : [SKTexture] = [
+                SKTexture(imageNamed: "buttonAbout0"),
+                SKTexture(imageNamed: "buttonAbout1"),
+                SKTexture(imageNamed: "buttonAbout2"),
+            ]
+            
+            texture = buttonAnimation[0]
+            textureAnimation = buttonAnimation
+        case .arrowLeft:
+            let buttonAnimation : [SKTexture] = [
+                SKTexture(imageNamed: "arrowLeft"),
+                SKTexture(imageNamed: "arrowLeft"),
+                SKTexture(imageNamed: "arrowLeft"),
+            ]
+            
+            texture = buttonAnimation[0]
+            textureAnimation = buttonAnimation
+        case .arrowRight:
+            let buttonAnimation : [SKTexture] = [
+                SKTexture(imageNamed: "arrow"),
+                SKTexture(imageNamed: "arrow"),
+                SKTexture(imageNamed: "arrow"),
+            ]
+            
+            texture = buttonAnimation[0]
+            textureAnimation = buttonAnimation
         }
         
         self.action = action

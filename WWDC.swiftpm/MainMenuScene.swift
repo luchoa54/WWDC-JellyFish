@@ -33,7 +33,7 @@ class MainMenuScene: SKScene {
     lazy var playButton: ButtonNode = {
         let transition = SKTransition.crossFade(withDuration: 0.5)
         let button = ButtonNode(buttonType: .play) { [weak self] in
-            self?.view?.presentScene(GameScene.newScene(), transition: transition)
+            self?.view?.presentScene(StoryScene.newScene(), transition: transition)
         }
         
         button.position = CGPoint(x: UIScreen.main.bounds.midX - 20, y: UIScreen.main.bounds.midY - 90)

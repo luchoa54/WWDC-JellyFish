@@ -50,6 +50,17 @@ class GameOverScene: SKScene {
             self?.view?.presentScene(MainMenuScene.newScene())
         }
         
+        button.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 250)
+        button.zPosition = 1
+        
+        return button
+    }()
+    
+    lazy var retryButton: ButtonNode = {
+        let button = ButtonNode(buttonType: .play) { [weak self] in
+            self?.view?.presentScene(GameScene.newScene())
+        }
+        
         button.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 150)
         button.zPosition = 1
         
@@ -61,6 +72,7 @@ class GameOverScene: SKScene {
         backgroundColor = .white
         
         addChild(endLabel)
+        addChild(retryButton)
         addChild(backToMenuButton)
     }
     
