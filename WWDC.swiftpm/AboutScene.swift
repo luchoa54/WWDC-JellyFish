@@ -18,11 +18,11 @@ class AboutScene: SKScene {
     
     lazy var returnButton: ButtonNode = {
         let transition = SKTransition.crossFade(withDuration: 0.5)
-        let button = ButtonNode(buttonType: .about) { [weak self] in
+        let button = ButtonNode(buttonType: .arrowLeft) { [weak self] in
             self?.view?.presentScene(MainMenuScene.newScene(), transition: transition)
         }
         
-        button.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 150)
+        button.position = CGPoint(x: UIScreen.main.bounds.midX - 400, y: UIScreen.main.bounds.midY + 550)
         
         button.zPosition = 1
         
@@ -30,7 +30,7 @@ class AboutScene: SKScene {
     }()
     
     override func didMove(to view: SKView) {
-        backgroundColor = .black
+        backgroundColor = .white
         
         addChild(returnButton)
     }
