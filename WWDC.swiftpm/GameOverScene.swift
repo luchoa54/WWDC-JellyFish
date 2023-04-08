@@ -26,6 +26,7 @@ class GameOverScene: SKScene {
         
         label.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY + 150)
         label.fontColor = .black
+        label.horizontalAlignmentMode = .center
         label.fontSize = 100
         label.numberOfLines = 2
         label.fontName = "ShortStack"
@@ -50,7 +51,7 @@ class GameOverScene: SKScene {
             self?.view?.presentScene(MainMenuScene.newScene())
         }
         
-        button.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 250)
+        button.position = CGPoint(x: UIScreen.main.bounds.midX - 10, y: UIScreen.main.bounds.midY - 250)
         button.zPosition = 1
         
         return button
@@ -61,7 +62,7 @@ class GameOverScene: SKScene {
             self?.view?.presentScene(GameScene.newScene())
         }
         
-        button.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 150)
+        button.position = CGPoint(x: UIScreen.main.bounds.midX - 10, y: UIScreen.main.bounds.midY - 150)
         button.zPosition = 1
         
         return button

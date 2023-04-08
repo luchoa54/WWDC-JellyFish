@@ -16,6 +16,15 @@ class AboutScene: SKScene {
         return scene
     }
     
+    lazy var aboutBackground : SKShapeNode = {
+        let shape = SKShapeNode(rectOf: CGSize(width: UIScreen.main.bounds.width - 150, height: UIScreen.main.bounds.height - 300), cornerRadius: 20)
+        
+        shape.fillColor = .black
+        shape.position = CGPoint(x: size.width / 2, y: (size.height / 2) - 80)
+        
+        return shape
+    }()
+    
     lazy var returnButton: ButtonNode = {
         let transition = SKTransition.crossFade(withDuration: 0.5)
         let button = ButtonNode(buttonType: .arrowLeft) { [weak self] in
@@ -33,6 +42,7 @@ class AboutScene: SKScene {
         backgroundColor = .white
         
         addChild(returnButton)
+        addChild(aboutBackground)
     }
     
 }

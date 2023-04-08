@@ -17,11 +17,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         return scene
     }
     
-    let player: SKShapeNode = SKShapeNode(rectOf: CGSize(width: 100, height: 100))
-    let enemy = JellyNode()
-    let oceanNode = SKShapeNode(rectOf: CGSize(width: 1100, height: 1100))
-    let collisionNode = SKShapeNode(rectOf: CGSize(width: 800, height: 100))
-    
     var distanceToBeach : Int = 150
     var distanceCount = Timer()
     var playerLane = 0
@@ -41,14 +36,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         
         backgroundColor = .white
         
-        createOcean()
-        createPlayer()
-        createJellyFish()
-        createObstacle()
-        createCollisionWall()
+        addChild(oceanNode)
+        addChild(playerNode)
+        addChild(JellyfishNode)
+        addChild(collisionNode)
         addChild(distanceIndicator)
-//        addChild(distanceLabel1)
         addChild(indicator)
+        spawnObstacle()
         startDistanceCount()
     }
     
@@ -108,28 +102,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
 //        return label
 //    }()
     
-    func createOcean(){
+    lazy var oceanNode: SKShapeNode = {
+        
+        let oceanNode = SKShapeNode(rectOf: CGSize(width: 1100, height: 1100))
         
         oceanNode.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 250)
         oceanNode.fillColor = .blue
         oceanNode.strokeColor = .blue
         oceanNode.zPosition = 1
         
-        addChild(oceanNode)
-    }
+        return oceanNode
+    }()
     
-    func createJellyFish(){
+    lazy var  JellyfishNode: JellyNode = {
         
+        let jellyNode = JellyNode()
         let sequence = SKAction.sequence([.moveBy(x: 0, y: 10, duration: 1), .moveBy(x: 0, y: -10, duration: 1)])
-        enemy.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY + 500)
-        enemy.run(.repeatForever(sequence))
-        enemy.zPosition = 0
+        jellyNode.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY + 500)
+        jellyNode.run(.repeatForever(sequence))
+        jellyNode.zPosition = 0
         
-        addChild(enemy)
-    }
+        return jellyNode
+    }()
     
-    func createPlayer(){
+    lazy var  playerNode : SKShapeNode = {
         
+        let player = SKShapeNode(rectOf: CGSize(width: 100, height: 100))
         player.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 200)
         player.fillColor = .green
         player.strokeColor = .green
@@ -143,10 +141,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         
         player.physicsBody = body
         
-        addChild(player)
-    }
+        return player
+    }()
     
-    func createCollisionWall(){
+    lazy var collisionNode : SKShapeNode = {
+        
+        let collisionNode = SKShapeNode(rectOf: CGSize(width: 800, height: 100))
         
         collisionNode.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 760)
         collisionNode.fillColor = .yellow
@@ -160,10 +160,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         
         collisionNode.physicsBody = body
         
-        addChild(collisionNode)
-    }
+        return collisionNode
+    }()
     
-    func createObstacle(){
+    func spawnObstacle(){
         
         for _ in 1...obstacleSpawns{
             let obstacleX: [Double] = [212.0, 512.0, 812,0]
@@ -192,7 +192,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         
         run(.wait(forDuration: TimeInterval.random(in: gameVelocity...(gameVelocity + 0.5)))) {
             [self] in
-            createObstacle()
+            spawnObstacle()
         }
     }
     
@@ -226,15 +226,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             switch gesture.direction {
             case .left:
                 if playerLane > -1{
-                    player.run(
-                        SKAction.moveTo(x: player.position.x - 300, duration: 0.3)
+                    playerNode.run(
+                        SKAction.moveTo(x: playerNode.position.x - 300, duration: 0.3)
                     )
                     playerLane -= 1
                 }
             case .right:
                 if playerLane < 1{
-                    player.run(
-                        SKAction.moveTo(x: player.position.x + 300, duration: 0.3)
+                    playerNode.run(
+                        SKAction.moveTo(x: playerNode.position.x + 300, duration: 0.3)
                     )
                     playerLane += 1
                 }
