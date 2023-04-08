@@ -176,16 +176,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         
         for _ in 1...obstacleSpawns{
             let obstacleX: [Double] = [212.0, 512.0, 812,0]
-            let randomIndex = Int.random(in: 0...2)
+            var randomIndex = Int.random(in: 0...2)
             let obstacle = ObstacleNode()
             let warning = SKSpriteNode(imageNamed: "warning")
+            
+            if GameController.shared.lastObstacleIndex == randomIndex {
+                if randomIndex == 0{
+                    randomIndex += 1
+                }else if randomIndex == 1 {
+                    randomIndex += 1
+                }else {
+                    randomIndex -= 2
+                }
+            }
             
             obstacle.position = CGPoint(x: -20, y: 0)
             warning.position = CGPoint(x: obstacleX[randomIndex], y: 1000)
             warning.size = CGSize(width: 200, height: 200)
             warning.zPosition = 5
             
-            let sequence = SKAction.sequence([.fadeIn(withDuration: 0.5),.fadeOut(withDuration: 0.5), .fadeIn(withDuration: 0.5), .fadeOut(withDuration: 0.5), .fadeIn(withDuration: 0.5),.fadeOut(withDuration: 0.5), .wait(forDuration: 0.5)])
+            let sequence = SKAction.sequence([.fadeIn(withDuration: timeVelocity),.fadeOut(withDuration: timeVelocity), .fadeIn(withDuration: timeVelocity), .fadeOut(withDuration: timeVelocity), .fadeIn(withDuration: timeVelocity),.fadeOut(withDuration: timeVelocity), .wait(forDuration: timeVelocity)])
             
             addChild(obstacle)
             addChild(warning)
@@ -194,9 +204,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
                 warning.removeFromParent()
                 obstacle.run(.move(by: CGVector(dx: obstacleX[randomIndex], dy: 1000), duration: 0))
                 obstacle.run(.move(to: CGPoint(x: obstacleX[randomIndex], y: -100), duration: self.gameVelocity))
-                obstacle.run(.resize(toWidth: 200, duration: 0.7))
-                obstacle.run(.resize(toHeight: 200, duration: 0.7))
+                obstacle.run(.resize(toWidth: 200, duration: self.timeVelocity + 0.2))
+                obstacle.run(.resize(toHeight: 200, duration: self.timeVelocity + 0.2))
             })
+            GameController.shared.lastObstacleIndex = randomIndex
         }
         
         run(.wait(forDuration: TimeInterval.random(in: gameVelocity...(gameVelocity + 0.5)))) {

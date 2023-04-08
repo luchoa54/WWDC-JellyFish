@@ -16,4 +16,6 @@ class GameController {
     var initialScene: MainMenuScene {
         .newScene()
     }
+    
+    var lastObstacleIndex: Int = 0
 }

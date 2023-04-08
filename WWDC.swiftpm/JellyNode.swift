@@ -20,6 +20,7 @@ class JellyNode: SKSpriteNode {
         physicsBody?.collisionBitMask = ~(.contactWithAllCategories(less: [.player, .wall]))
         physicsBody?.contactTestBitMask = ~(.contactWithAllCategories(less:[.obstacle, .player,.wall]))
         physicsBody?.affectedByGravity = false
+        
     }
     
     required init?(coder aDecoder: NSCoder) {
