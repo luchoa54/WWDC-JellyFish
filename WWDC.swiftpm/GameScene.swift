@@ -84,23 +84,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         return shape
     }()
     
-//    lazy var distanceLabel1: SKLabelNode = {
-//        let label = SKLabelNode(text: "Distance to beach: ")
-//
-//        let cfURL = Bundle.main.url(forResource: "ShortStack", withExtension: "ttf")! as CFURL
-//
-//        CTFontManagerRegisterFontsForURL(cfURL,CTFontManagerScope.process,nil)
-//
-//        label.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 600)
-//        label.fontColor = .black
-//        label.horizontalAlignmentMode = .center
-//        label.fontSize = 50
-//        label.numberOfLines = 2
-//        label.fontName = "ShortStack"
-//        label.zPosition = 2
-//
-//        return label
-//    }()
+    //    lazy var distanceLabel1: SKLabelNode = {
+    //        let label = SKLabelNode(text: "Distance to beach: ")
+    //
+    //        let cfURL = Bundle.main.url(forResource: "ShortStack", withExtension: "ttf")! as CFURL
+    //
+    //        CTFontManagerRegisterFontsForURL(cfURL,CTFontManagerScope.process,nil)
+    //
+    //        label.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 600)
+    //        label.fontColor = .black
+    //        label.horizontalAlignmentMode = .center
+    //        label.fontSize = 50
+    //        label.numberOfLines = 2
+    //        label.fontName = "ShortStack"
+    //        label.zPosition = 2
+    //
+    //        return label
+    //    }()
     
     lazy var oceanNode: SKShapeNode = {
         
@@ -125,13 +125,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         return jellyNode
     }()
     
-    lazy var  playerNode : SKShapeNode = {
+    lazy var playerNode : SKShapeNode = {
         
         let player = SKShapeNode(rectOf: CGSize(width: 100, height: 100))
         player.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 200)
         player.fillColor = .green
         player.strokeColor = .green
         player.zPosition = 2
+        
+        let tutorialNode = SKSpriteNode(imageNamed: "gesture")
+        tutorialNode.position = CGPoint(x: 100, y: -100)
+        
+        player.addChild(tutorialNode)
+        
+        let sequence = SKAction.sequence([.wait(forDuration: 1), .run(tutorialNode.removeFromParent)])
+        
+        tutorialNode.run(sequence)
         
         let body = SKPhysicsBody(rectangleOf: CGSize(width: 100, height: 100))
         body.categoryBitMask = .player
@@ -202,7 +211,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     
     @objc func decrementDistance(){
         distanceToBeach -= 1
-//        distanceLabel.text = "\(distanceToBeach)"
+        //        distanceLabel.text = "\(distanceToBeach)"
         indicator.position.y -= 2
         
         if distanceToBeach == 130 {
@@ -226,16 +235,40 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             switch gesture.direction {
             case .left:
                 if playerLane > -1{
-                    playerNode.run(
-                        SKAction.moveTo(x: playerNode.position.x - 300, duration: 0.3)
-                    )
+                    let action = SKAction.moveTo(x: playerNode.position.x - 300, duration: 0.3)
+                    action.timingMode = .easeInEaseOut
+                    
+                    let sequence = SKAction.sequence([.wait(forDuration: 0.2), .moveTo(x: playerNode.position.x - 300, duration: 0.3)])
+                    
+                    playerNode.zRotation = -0.1
+                    playerNode.run(action){ [weak self] in
+                        self?.playerNode.zRotation = 0
+                    }
+                    
+                    JellyfishNode.zRotation = -0.1
+                    JellyfishNode.run(sequence) { [weak self] in
+                        self?.JellyfishNode.zRotation = 0
+                    }
+                    
                     playerLane -= 1
                 }
             case .right:
                 if playerLane < 1{
-                    playerNode.run(
-                        SKAction.moveTo(x: playerNode.position.x + 300, duration: 0.3)
-                    )
+                    let action = SKAction.moveTo(x: playerNode.position.x + 300, duration: 0.3)
+                    action.timingMode = .easeInEaseOut
+                    
+                    let sequence = SKAction.sequence([.wait(forDuration: 0.2), .moveTo(x: playerNode.position.x + 300, duration: 0.3)])
+                    
+                    playerNode.zRotation = 0.1
+                    playerNode.run(action){ [weak self] in
+                        self?.playerNode.zRotation = 0
+                    }
+                    
+                    JellyfishNode.zRotation = 0.1
+                    JellyfishNode.run(sequence){ [weak self] in
+                        self?.JellyfishNode.zRotation = 0
+                    }
+                    
                     playerLane += 1
                 }
             default:
@@ -257,7 +290,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     public func testContactObstacleWithWall(_ contactMaks:UInt32, contact: SKPhysicsContact) {
         if contactMaks == .obstacle | .wall {
             contact.bodyB.node?.removeFromParent()
-
+            
         }
     }
     
