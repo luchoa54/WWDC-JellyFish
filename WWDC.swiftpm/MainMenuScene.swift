@@ -24,7 +24,7 @@ class MainMenuScene: SKScene {
         ]
         let sprite = SKSpriteNode(texture: backgroundTexture[0], size: backgroundTexture[0].size())
         
-        sprite.run(.repeatForever(.animate(with: backgroundTexture, timePerFrame: 0.1)))
+        sprite.run(.repeatForever(.animate(with: backgroundTexture, timePerFrame: 0.15)))
         sprite.position = CGPoint(x: size.width/2, y: size.height/2)
         
         return sprite

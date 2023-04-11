@@ -27,12 +27,12 @@ class AboutScene: SKScene {
     
     lazy var returnButton: ButtonNode = {
         let transition = SKTransition.crossFade(withDuration: 0.5)
-        let button = ButtonNode(buttonType: .arrowLeft) { [weak self] in
+        let button = ButtonNode(buttonType: .arrowRight) { [weak self] in
             self?.view?.presentScene(MainMenuScene.newScene(), transition: transition)
         }
         
         button.position = CGPoint(x: UIScreen.main.bounds.midX - 400, y: UIScreen.main.bounds.midY + 550)
-        
+        button.xScale = -1
         button.zPosition = 1
         
         return button

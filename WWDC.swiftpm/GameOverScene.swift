@@ -47,7 +47,7 @@ class GameOverScene: SKScene {
     }()
     
     lazy var backToMenuButton: ButtonNode = {
-        let button = ButtonNode(buttonType: .play) { [weak self] in
+        let button = ButtonNode(buttonType: .playAgain) { [weak self] in
             self?.view?.presentScene(MainMenuScene.newScene())
         }
         
@@ -62,7 +62,7 @@ class GameOverScene: SKScene {
             self?.view?.presentScene(GameScene.newScene())
         }
         
-        button.position = CGPoint(x: UIScreen.main.bounds.midX - 10, y: UIScreen.main.bounds.midY - 150)
+        button.position = CGPoint(x: UIScreen.main.bounds.midX - 20, y: UIScreen.main.bounds.midY - 90)
         button.zPosition = 1
         
         return button

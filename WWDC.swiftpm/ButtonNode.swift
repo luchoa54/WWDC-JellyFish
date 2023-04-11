@@ -9,7 +9,7 @@ import Foundation
 import SpriteKit
 
 enum ButtonType {
-    case play, about, arrowLeft, arrowRight
+    case play, about, arrowRight, playAgain
 }
 
 class ButtonNode: SKSpriteNode {
@@ -40,20 +40,20 @@ class ButtonNode: SKSpriteNode {
             
             texture = buttonAnimation[0]
             textureAnimation = buttonAnimation
-        case .arrowLeft:
+        case .arrowRight:
             let buttonAnimation : [SKTexture] = [
-                SKTexture(imageNamed: "arrowLeft"),
-                SKTexture(imageNamed: "arrowLeft"),
-                SKTexture(imageNamed: "arrowLeft"),
+                SKTexture(imageNamed: "arrow0"),
+                SKTexture(imageNamed: "arrow1"),
+                SKTexture(imageNamed: "arrow2"),
             ]
             
             texture = buttonAnimation[0]
             textureAnimation = buttonAnimation
-        case .arrowRight:
+        case .playAgain:
             let buttonAnimation : [SKTexture] = [
-                SKTexture(imageNamed: "arrow"),
-                SKTexture(imageNamed: "arrow"),
-                SKTexture(imageNamed: "arrow"),
+                SKTexture(imageNamed: "buttonPlayAgain0"),
+                SKTexture(imageNamed: "buttonPlayAgain1"),
+                SKTexture(imageNamed: "buttonPlayAgain2"),
             ]
             
             texture = buttonAnimation[0]
@@ -64,7 +64,7 @@ class ButtonNode: SKSpriteNode {
         
         super.init(texture: texture, color: .clear, size: texture.size())
         
-        run(.repeatForever(.animate(with: textureAnimation, timePerFrame: 0.1)))
+        run(.repeatForever(.animate(with: textureAnimation, timePerFrame: 0.15)))
         
         isUserInteractionEnabled = true
     }

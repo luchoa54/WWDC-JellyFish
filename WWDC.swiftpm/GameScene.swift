@@ -17,7 +17,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         return scene
     }
     
-    var distanceToBeach : Int = 150
+    var distanceToBeach : Int = 100
     var distanceCount = Timer()
     var playerLane = 0
     var obstacleSpawns = 1
@@ -41,8 +41,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         addChild(JellyfishNode)
         addChild(collisionNode)
         addChild(distanceIndicator)
+        addChild(distanceLabel1)
         addChild(indicator)
-        spawnObstacle()
+        addChild(tutorialNode)
+        
+        let startSpawn = SKAction.sequence([.wait(forDuration: 3), .run { [weak self] in
+            self?.spawnObstacle()
+        }])
+        
+        run(startSpawn)
         startDistanceCount()
     }
     
@@ -64,7 +71,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         ]
         let sprite = SKSpriteNode(texture: texture[0], color: .clear, size: CGSize(width: 500, height: 500))
         
-        sprite.position = CGPoint(x: UIScreen.main.bounds.minX + 160, y: UIScreen.main.bounds.midY - 100)
+        sprite.position = CGPoint(x: UIScreen.main.bounds.minX + 180, y: UIScreen.main.bounds.midY - 100)
         sprite.zPosition = 10
         
         sprite.run(.repeatForever(.animate(with: texture, timePerFrame: 0.1)))
@@ -72,43 +79,49 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         return sprite
     }()
     
-    lazy var indicator: SKShapeNode = {
+    lazy var indicator: SKSpriteNode = {
         
-        let shape = SKShapeNode(circleOfRadius: CGFloat(20))
+        let textures : [SKTexture] = [
+            SKTexture(imageNamed: "indicator0"),
+            SKTexture(imageNamed: "indicator1"),
+            SKTexture(imageNamed: "indicator2")
+        ]
         
-        shape.position = CGPoint(x: UIScreen.main.bounds.minX + 80, y: UIScreen.main.bounds.midY + 60)
+        let sprite = SKSpriteNode(texture: textures[0], size: CGSize(width: 60, height: 60))
         
-        shape.zPosition = 10
-        shape.fillColor = .red
+        sprite.position = CGPoint(x: UIScreen.main.bounds.minX + 120, y: UIScreen.main.bounds.midY + 60)
+        sprite.run(.repeatForever(.animate(with: textures, timePerFrame: 0.1)))
+        sprite.zPosition = 10
         
-        return shape
+        return sprite
     }()
     
-    //    lazy var distanceLabel1: SKLabelNode = {
-    //        let label = SKLabelNode(text: "Distance to beach: ")
-    //
-    //        let cfURL = Bundle.main.url(forResource: "ShortStack", withExtension: "ttf")! as CFURL
-    //
-    //        CTFontManagerRegisterFontsForURL(cfURL,CTFontManagerScope.process,nil)
-    //
-    //        label.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 600)
-    //        label.fontColor = .black
-    //        label.horizontalAlignmentMode = .center
-    //        label.fontSize = 50
-    //        label.numberOfLines = 2
-    //        label.fontName = "ShortStack"
-    //        label.zPosition = 2
-    //
-    //        return label
-    //    }()
+    lazy var distanceLabel1: SKLabelNode = {
+        let label = SKLabelNode(text: "\(distanceToBeach)m")
+        
+        let cfURL = Bundle.main.url(forResource: "ShortStack", withExtension: "ttf")! as CFURL
+        
+        CTFontManagerRegisterFontsForURL(cfURL,CTFontManagerScope.process,nil)
+        
+        label.position = CGPoint(x: UIScreen.main.bounds.minX + 80, y: UIScreen.main.bounds.midY - 430)
+        label.fontColor = .black
+        label.horizontalAlignmentMode = .center
+        label.fontSize = 50
+        label.numberOfLines = 2
+        label.fontName = "ShortStack"
+        label.zPosition = 2
+        
+        return label
+    }()
     
     lazy var oceanNode: SKShapeNode = {
         
         let oceanNode = SKShapeNode(rectOf: CGSize(width: 1100, height: 1100))
         
         oceanNode.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 250)
-        oceanNode.fillColor = .blue
-        oceanNode.strokeColor = .blue
+        oceanNode.fillColor = .white
+        oceanNode.strokeColor = .black
+        oceanNode.lineWidth = 10
         oceanNode.zPosition = 1
         
         return oceanNode
@@ -125,32 +138,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         return jellyNode
     }()
     
-    lazy var playerNode : SKShapeNode = {
+    lazy var playerNode : SKSpriteNode = {
         
-        let player = SKShapeNode(rectOf: CGSize(width: 100, height: 100))
-        player.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 200)
-        player.fillColor = .green
-        player.strokeColor = .green
+        let player = PlayerNode()
+        player.position = CGPoint(x: UIScreen.main.bounds.midX + 40, y: UIScreen.main.bounds.midY - 220)
         player.zPosition = 2
         
-        let tutorialNode = SKSpriteNode(imageNamed: "gesture")
-        tutorialNode.position = CGPoint(x: 100, y: -100)
         
-        player.addChild(tutorialNode)
-        
-        let sequence = SKAction.sequence([.wait(forDuration: 1), .run(tutorialNode.removeFromParent)])
+        let sequence = SKAction.sequence([.wait(forDuration: 3), .run(tutorialNode.removeFromParent)])
         
         tutorialNode.run(sequence)
         
-        let body = SKPhysicsBody(rectangleOf: CGSize(width: 100, height: 100))
-        body.categoryBitMask = .player
-        body.collisionBitMask = ~(.contactWithAllCategories(less: [.player, .wall]))
-        body.contactTestBitMask = ~(.contactWithAllCategories(less: [.obstacle, .player, .wall]))
-        body.affectedByGravity = false
-        
-        player.physicsBody = body
-        
         return player
+    }()
+    
+    lazy var tutorialNode: SKSpriteNode = {
+        let textures : [SKTexture] = [
+            SKTexture(imageNamed: "tutorial0"),
+            SKTexture(imageNamed: "tutorial1"),
+            SKTexture(imageNamed: "tutorial2")
+        ]
+        
+        let tutorialNode = SKSpriteNode(texture: textures[0], color: .clear, size: CGSize(width: 200, height: 200))
+        
+        tutorialNode.position = CGPoint(x: UIScreen.main.bounds.midX + 70, y: UIScreen.main.bounds.midY - 390)
+        tutorialNode.run(.repeatForever(.animate(with: textures, timePerFrame: 0.1)))
+        tutorialNode.zPosition = 2
+        
+        return tutorialNode
     }()
     
     lazy var collisionNode : SKShapeNode = {
@@ -174,11 +189,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     
     func spawnObstacle(){
         
+        let textures : [SKTexture] = [
+            SKTexture(imageNamed: "warning0"),
+            SKTexture(imageNamed: "warning1"),
+            SKTexture(imageNamed: "warning2")
+        ]
+        
         for _ in 1...obstacleSpawns{
-            let obstacleX: [Double] = [212.0, 512.0, 812,0]
+            let obstacleX: [Double] = [240.0, 540.0, 840,0]
             var randomIndex = Int.random(in: 0...2)
             let obstacle = ObstacleNode()
-            let warning = SKSpriteNode(imageNamed: "warning")
+            let warning = SKSpriteNode(texture: textures[0], color: .clear, size: CGSize(width: 300, height: 300))
             
             if GameController.shared.lastObstacleIndex == randomIndex {
                 if randomIndex == 0{
@@ -200,10 +221,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             addChild(obstacle)
             addChild(warning)
             
+            warning.run(.repeatForever(.animate(with: textures, timePerFrame: 0.1)))
+            
             warning.run(sequence, completion: {
                 warning.removeFromParent()
                 obstacle.run(.move(by: CGVector(dx: obstacleX[randomIndex], dy: 1000), duration: 0))
-                obstacle.run(.move(to: CGPoint(x: obstacleX[randomIndex], y: -100), duration: self.gameVelocity))
+                obstacle.run(.move(to: CGPoint(x: obstacleX[randomIndex], y: -100), duration: self.gameVelocity - 1))
                 obstacle.run(.resize(toWidth: 200, duration: self.timeVelocity + 0.2))
                 obstacle.run(.resize(toHeight: 200, duration: self.timeVelocity + 0.2))
             })
@@ -222,15 +245,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     
     @objc func decrementDistance(){
         distanceToBeach -= 1
-        //        distanceLabel.text = "\(distanceToBeach)"
-        indicator.position.y -= 2
+        distanceLabel1.text = "\(distanceToBeach)m"
+        indicator.position.y -= 3.2
         
-        if distanceToBeach == 130 {
+        if distanceToBeach == 90 {
             gameVelocity -= 1
             timeVelocity -= 0.1
         }
         
-        if distanceToBeach == 90 {
+        if distanceToBeach == 60 {
             obstacleSpawns += 1
             gameVelocity -= 1
             timeVelocity -= 0.2
@@ -261,6 +284,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
                         self?.JellyfishNode.zRotation = 0
                     }
                     
+                    tutorialNode.run(action)
                     playerLane -= 1
                 }
             case .right:
@@ -280,16 +304,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
                         self?.JellyfishNode.zRotation = 0
                     }
                     
+                    tutorialNode.run(action)
                     playerLane += 1
                 }
             default:
                 print("No gesture")
             }
         }
-    }
-    
-    override func update(_ currentTime: TimeInterval) {
-        
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
