@@ -11,22 +11,23 @@ import SpriteKit
 class ObstacleNode: SKSpriteNode{
     
     let spriteTextures = [
-        SKTexture(imageNamed: "thunder"),
-        SKTexture(imageNamed: "thunder"),
-        SKTexture(imageNamed: "thunder"),
+        SKTexture(imageNamed: "strike0"),
+        SKTexture(imageNamed: "strike1"),
+        SKTexture(imageNamed: "strike2"),
     ]
     
     init() {
-        let randomSprite = Int.random(in: 0...spriteTextures.count - 1)
-        let spriteTexture = spriteTextures[randomSprite]
+//        let randomSprite = Int.random(in: 0...spriteTextures.count - 1)
+//        let spriteTexture = spriteTextures[randomSprite]
         
-        super.init(texture: spriteTexture, color: .clear, size: CGSize(width: 10, height: 10))
+        super.init(texture: spriteTextures[0], color: .clear, size: CGSize(width: 10, height: 10))
         
+        run(.repeatForever(.animate(with: spriteTextures, timePerFrame: 0.15)))
         zPosition = 3
         
         name = "Obstacle"
         
-        physicsBody = SKPhysicsBody(texture: spriteTexture, size: CGSize(width: 100, height: 200))
+        physicsBody = SKPhysicsBody(texture: spriteTextures[0], size: CGSize(width: 100, height: 200))
         physicsBody?.categoryBitMask = .obstacle
         physicsBody?.collisionBitMask = ~(.contactWithAllCategories())
         physicsBody?.contactTestBitMask = ~(.contactWithAllCategories(less:[.obstacle, .player,.wall]))

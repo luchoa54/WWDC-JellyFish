@@ -7,17 +7,79 @@
       <BreakpointProxy
          BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
          <BreakpointContent
-            uuid = "E70DEB08-CFB4-42E0-BB94-CA0739041DA0"
+            uuid = "2483ECB9-D77B-473D-80BA-2DBBDDA3D7C7"
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "StoryScene.swift"
+            filePath = "AboutScene.swift"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "63"
-            endingLineNumber = "63"
-            landmarkName = "storyBar"
-            landmarkType = "24">
+            startingLineNumber = "13"
+            endingLineNumber = "13"
+            landmarkName = "AboutScene"
+            landmarkType = "3">
+            <Locations>
+               <Location
+                  uuid = "2483ECB9-D77B-473D-80BA-2DBBDDA3D7C7 - accece888388d6f9"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WWDC.AboutScene.aboutBackgroundWidht.getter : CoreGraphics.CGFloat"
+                  moduleName = "WWDC"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lucianouchoa/Desktop/Challenges/Apps/WWDC-JellyFish/WWDC.swiftpm/AboutScene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "13"
+                  endingLineNumber = "13"
+                  offsetFromSymbolStart = "28">
+               </Location>
+               <Location
+                  uuid = "2483ECB9-D77B-473D-80BA-2DBBDDA3D7C7 - 81e79f40537c65db"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WWDC.AboutScene.init(size: __C.CGSize) -&gt; WWDC.AboutScene"
+                  moduleName = "WWDC"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lucianouchoa/Desktop/Challenges/Apps/WWDC-JellyFish/WWDC.swiftpm/AboutScene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "13"
+                  endingLineNumber = "13"
+                  offsetFromSymbolStart = "124">
+               </Location>
+               <Location
+                  uuid = "2483ECB9-D77B-473D-80BA-2DBBDDA3D7C7 - 2525a2449029ee5c"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WWDC.AboutScene.init() -&gt; WWDC.AboutScene"
+                  moduleName = "WWDC"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lucianouchoa/Desktop/Challenges/Apps/WWDC-JellyFish/WWDC.swiftpm/AboutScene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "13"
+                  endingLineNumber = "13"
+                  offsetFromSymbolStart = "100">
+               </Location>
+               <Location
+                  uuid = "2483ECB9-D77B-473D-80BA-2DBBDDA3D7C7 - 7e692c9c61e52923"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "WWDC.AboutScene.init(coder: __C.NSCoder) -&gt; Swift.Optional&lt;WWDC.AboutScene&gt;"
+                  moduleName = "WWDC"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/lucianouchoa/Desktop/Challenges/Apps/WWDC-JellyFish/WWDC.swiftpm/AboutScene.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "13"
+                  endingLineNumber = "13"
+                  offsetFromSymbolStart = "112">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

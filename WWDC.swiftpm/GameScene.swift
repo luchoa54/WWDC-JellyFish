@@ -44,6 +44,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         addChild(distanceLabel1)
         addChild(indicator)
         addChild(tutorialNode)
+        addChild(backgroundJelly)
         
         let startSpawn = SKAction.sequence([.wait(forDuration: 3), .run { [weak self] in
             self?.spawnObstacle()
@@ -114,15 +115,36 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         return label
     }()
     
-    lazy var oceanNode: SKShapeNode = {
+    lazy var backgroundJelly: SKSpriteNode = {
+        let texture : [SKTexture] = [
+            SKTexture(imageNamed: "backgroundGame0"),
+            SKTexture(imageNamed: "backgroundGame1"),
+            SKTexture(imageNamed: "backgroundGame2"),
+        ]
         
-        let oceanNode = SKShapeNode(rectOf: CGSize(width: 1100, height: 1100))
+        let sprite = SKSpriteNode(texture: texture[0], color: .clear, size: texture[0].size())
+        
+        sprite.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY + 500)
+        
+        sprite.run(.repeatForever(.animate(with: texture, timePerFrame: 0.15)))
+        
+        return sprite
+    }()
+    
+    lazy var oceanNode: SKSpriteNode = {
+        
+        let texture : [SKTexture] = [
+            SKTexture(imageNamed: "ocean0"),
+            SKTexture(imageNamed: "ocean1"),
+            SKTexture(imageNamed: "ocean2")
+        ]
+        
+        let oceanNode = SKSpriteNode(texture: texture[0], color: .white, size: CGSize(width: 1100, height: 1100))
         
         oceanNode.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 250)
-        oceanNode.fillColor = .white
-        oceanNode.strokeColor = .black
-        oceanNode.lineWidth = 10
         oceanNode.zPosition = 1
+        
+        oceanNode.run(.repeatForever(.animate(with: texture, timePerFrame: 0.3)))
         
         return oceanNode
     }()
