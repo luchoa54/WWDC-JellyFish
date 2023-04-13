@@ -10,13 +10,11 @@ import SpriteKit
 
 class PlayerNode: SKSpriteNode {
     
-    let textures : [SKTexture] = [
-        SKTexture(imageNamed: "player0"),
-        SKTexture(imageNamed: "player1"),
-        SKTexture(imageNamed: "player2")
-    ]
+    let imageNames = ["player0", "player1", "player2"]
     
     init(){
+        let textures = [SKTexture].loadTextures(from: imageNames)
+        
         super.init(texture: textures[0], color: .clear, size: textures[0].size())
         
         let sequence = SKAction.sequence([

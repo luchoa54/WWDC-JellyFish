@@ -65,34 +65,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     }
     
     lazy var distanceIndicator: SKSpriteNode = {
-        let texture : [SKTexture] = [
-            SKTexture(imageNamed: "Distance0"),
-            SKTexture(imageNamed: "Distance1"),
-            SKTexture(imageNamed: "Distance2")
-        ]
-        let sprite = SKSpriteNode(texture: texture[0], color: .clear, size: CGSize(width: 500, height: 500))
+        let imageNames = ["Distance0", "Distance1", "Distance2"]
+        
+        let textures = [SKTexture].loadTextures(from: imageNames)
+        
+        let sprite = SKSpriteNode(texture: textures[0], color: .clear, size: CGSize(width: 500, height: 500))
         
         sprite.position = CGPoint(x: UIScreen.main.bounds.minX + 180, y: UIScreen.main.bounds.midY - 100)
         sprite.zPosition = 10
         
-        sprite.run(.repeatForever(.animate(with: texture, timePerFrame: 0.1)))
+        sprite.run(.doodleEffect(with: textures))
         
         return sprite
     }()
     
     lazy var indicator: SKSpriteNode = {
         
-        let textures : [SKTexture] = [
-            SKTexture(imageNamed: "indicator0"),
-            SKTexture(imageNamed: "indicator1"),
-            SKTexture(imageNamed: "indicator2")
-        ]
+        let imageNames = ["indicator0", "indicator1", "indicator2"]
+        
+        let textures = [SKTexture].loadTextures(from: imageNames)
         
         let sprite = SKSpriteNode(texture: textures[0], size: CGSize(width: 60, height: 60))
         
         sprite.position = CGPoint(x: UIScreen.main.bounds.minX + 120, y: UIScreen.main.bounds.midY + 60)
-        sprite.run(.repeatForever(.animate(with: textures, timePerFrame: 0.1)))
-        sprite.zPosition = 10
+        sprite.run(.doodleEffect(with: textures))
+        sprite.zPosition = 3
         
         return sprite
     }()
@@ -116,35 +113,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     }()
     
     lazy var backgroundJelly: SKSpriteNode = {
-        let texture : [SKTexture] = [
-            SKTexture(imageNamed: "backgroundGame0"),
-            SKTexture(imageNamed: "backgroundGame1"),
-            SKTexture(imageNamed: "backgroundGame2"),
-        ]
         
-        let sprite = SKSpriteNode(texture: texture[0], color: .clear, size: texture[0].size())
+        let imageNames = ["backgroundGame0", "backgroundGame1", "backgroundGame2"]
+        
+        let textures = [SKTexture].loadTextures(from: imageNames)
+        
+        let sprite = SKSpriteNode(texture: textures[0], color: .clear, size: textures[0].size())
         
         sprite.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY + 500)
+        sprite.zPosition = 0
         
-        sprite.run(.repeatForever(.animate(with: texture, timePerFrame: 0.15)))
+        sprite.run(.doodleEffect(with: textures))
         
         return sprite
     }()
     
     lazy var oceanNode: SKSpriteNode = {
         
-        let texture : [SKTexture] = [
-            SKTexture(imageNamed: "ocean0"),
-            SKTexture(imageNamed: "ocean1"),
-            SKTexture(imageNamed: "ocean2")
-        ]
+        let imageNames = ["ocean0", "ocean1", "ocean2"]
         
-        let oceanNode = SKSpriteNode(texture: texture[0], color: .white, size: CGSize(width: 1100, height: 1100))
+        let textures = [SKTexture].loadTextures(from: imageNames)
+        
+        let oceanNode = SKSpriteNode(texture: textures[0], color: .white, size: CGSize(width: 1100, height: 1100))
         
         oceanNode.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 250)
         oceanNode.zPosition = 1
         
-        oceanNode.run(.repeatForever(.animate(with: texture, timePerFrame: 0.3)))
+        oceanNode.run(.doodleEffect(with: textures))
         
         return oceanNode
     }()
@@ -152,10 +147,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     lazy var  JellyfishNode: JellyNode = {
         
         let jellyNode = JellyNode()
+        
         let sequence = SKAction.sequence([.moveBy(x: 0, y: 10, duration: 1), .moveBy(x: 0, y: -10, duration: 1)])
-        jellyNode.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY + 500)
         jellyNode.run(.repeatForever(sequence))
-        jellyNode.zPosition = 0
+        
+        jellyNode.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY + 500)
+        jellyNode.zPosition = 1
         
         return jellyNode
     }()
@@ -166,20 +163,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         player.position = CGPoint(x: UIScreen.main.bounds.midX + 40, y: UIScreen.main.bounds.midY - 220)
         player.zPosition = 2
         
+        let animationSequence = SKAction.sequence([.wait(forDuration: 3), .run(tutorialNode.removeFromParent)])
         
-        let sequence = SKAction.sequence([.wait(forDuration: 3), .run(tutorialNode.removeFromParent)])
-        
-        tutorialNode.run(sequence)
+        tutorialNode.run(animationSequence)
         
         return player
     }()
     
     lazy var tutorialNode: SKSpriteNode = {
-        let textures : [SKTexture] = [
-            SKTexture(imageNamed: "tutorial0"),
-            SKTexture(imageNamed: "tutorial1"),
-            SKTexture(imageNamed: "tutorial2")
-        ]
+        
+        let imageNames = ["tutorial0", "tutorial1", "tutorial2"]
+        
+        let textures = [SKTexture].loadTextures(from: imageNames)
         
         let tutorialNode = SKSpriteNode(texture: textures[0], color: .clear, size: CGSize(width: 200, height: 200))
         
@@ -211,11 +206,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     
     func spawnObstacle(){
         
-        let textures : [SKTexture] = [
-            SKTexture(imageNamed: "warning0"),
-            SKTexture(imageNamed: "warning1"),
-            SKTexture(imageNamed: "warning2")
-        ]
+        let imageNames = ["warning0", "warning1", "warning2"]
+        
+        let textures = [SKTexture].loadTextures(from: imageNames)
         
         for _ in 1...obstacleSpawns{
             let obstacleX: [Double] = [240.0, 540.0, 840,0]
@@ -286,52 +279,41 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         }
     }
     
-    @objc func handleSwipe(gesture: UIGestureRecognizer){
-        if let gesture = gesture as? UISwipeGestureRecognizer {
-            switch gesture.direction {
-            case .left:
-                if playerLane > -1{
-                    let action = SKAction.moveTo(x: playerNode.position.x - 300, duration: 0.3)
-                    action.timingMode = .easeInEaseOut
-                    
-                    let sequence = SKAction.sequence([.wait(forDuration: 0.2), .moveTo(x: playerNode.position.x - 300, duration: 0.3)])
-                    
-                    playerNode.zRotation = -0.1
-                    playerNode.run(action){ [weak self] in
-                        self?.playerNode.zRotation = 0
-                    }
-                    
-                    JellyfishNode.zRotation = -0.1
-                    JellyfishNode.run(sequence) { [weak self] in
-                        self?.JellyfishNode.zRotation = 0
-                    }
-                    
-                    tutorialNode.run(action)
-                    playerLane -= 1
-                }
-            case .right:
-                if playerLane < 1{
-                    let action = SKAction.moveTo(x: playerNode.position.x + 300, duration: 0.3)
-                    action.timingMode = .easeInEaseOut
-                    
-                    let sequence = SKAction.sequence([.wait(forDuration: 0.2), .moveTo(x: playerNode.position.x + 300, duration: 0.3)])
-                    
-                    playerNode.zRotation = 0.1
-                    playerNode.run(action){ [weak self] in
-                        self?.playerNode.zRotation = 0
-                    }
-                    
-                    JellyfishNode.zRotation = 0.1
-                    JellyfishNode.run(sequence){ [weak self] in
-                        self?.JellyfishNode.zRotation = 0
-                    }
-                    
-                    tutorialNode.run(action)
-                    playerLane += 1
-                }
-            default:
-                print("No gesture")
-            }
+    @objc func handleSwipe(gesture: UISwipeGestureRecognizer) {
+        guard let playerLaneDelta = getPlayerLaneDelta(for: gesture.direction) else {
+            print("No gesture")
+            return
+        }
+        
+        let xDelta: CGFloat = 300 * CGFloat(playerLaneDelta)
+        let duration: TimeInterval = 0.3
+        
+        let movePlayer = SKAction.moveBy(x: xDelta, y: 0, duration: duration)
+        let rotatePlayer = SKAction.rotate(toAngle: 0, duration: duration)
+        let tiltPlayer = SKAction.rotate(toAngle: CGFloat(playerLaneDelta) * -0.1, duration: duration/2, shortestUnitArc: true)
+        let moveJellyfish = SKAction.sequence([.wait(forDuration: 0.2), movePlayer])
+        let rotateJellyfish = SKAction.rotate(toAngle: 0, duration: duration)
+        let tiltJellyfish = SKAction.rotate(toAngle: CGFloat(playerLaneDelta) * -0.1, duration: duration/2, shortestUnitArc: true)
+        
+        playerNode.run(movePlayer)
+        playerNode.run(SKAction.sequence([tiltPlayer, rotatePlayer]))
+        
+        JellyfishNode.run(moveJellyfish)
+        JellyfishNode.run(SKAction.sequence([tiltJellyfish, rotateJellyfish]))
+        
+        tutorialNode.run(movePlayer)
+        playerLane += playerLaneDelta
+    }
+
+
+    private func getPlayerLaneDelta(for direction: UISwipeGestureRecognizer.Direction) -> Int? {
+        switch direction {
+        case .left:
+            return playerLane > -1 ? -1 : nil
+        case .right:
+            return playerLane < 1 ? 1 : nil
+        default:
+            return nil
         }
     }
     

@@ -64,7 +64,7 @@ class ButtonNode: SKSpriteNode {
         
         super.init(texture: texture, color: .clear, size: texture.size())
         
-        run(.repeatForever(.animate(with: textureAnimation, timePerFrame: 0.15)))
+        run(.doodleEffect(with: textureAnimation))
         
         isUserInteractionEnabled = true
     }

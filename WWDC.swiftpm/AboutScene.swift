@@ -20,15 +20,12 @@ class AboutScene: SKScene {
     
     lazy var aboutBackground : SKSpriteNode = {
         
-        let backgroundTexture: [SKTexture] = [
-            SKTexture(imageNamed: "aboutBackground0"),
-            SKTexture(imageNamed: "aboutBackground1"),
-            SKTexture(imageNamed: "aboutBackground2"),
-        ]
+        let imageNames = ["aboutBackground0", "aboutBackground1", "aboutBackground2"]
+        let backgroundTexture = [SKTexture].loadTextures(from: imageNames)
         
         let shape = SKSpriteNode(texture: backgroundTexture[0], size: CGSize(width: UIScreen.main.bounds.width - 90, height: UIScreen.main.bounds.height - 250))
         
-        shape.run(.repeatForever(.animate(with: backgroundTexture, timePerFrame: 0.15)))
+        shape.run(.doodleEffect(with: backgroundTexture))
         shape.position = CGPoint(x: size.width / 2, y: (size.height / 2) - 80)
         shape.texture?.filteringMode = .nearest
         return shape
@@ -175,9 +172,7 @@ class AboutScene: SKScene {
         return label
     }()
     
-    override func didMove(to view: SKView) {
-        backgroundColor = .white
-        
+    func setupScene(){
         addChild(returnButton)
         addChild(aboutBackground)
         addChild(photoNode)
@@ -187,9 +182,12 @@ class AboutScene: SKScene {
         addChild(textLabel2)
         addChild(textLabel3)
         addChild(textLabel4)
+    }
+    
+    override func didMove(to view: SKView) {
+        backgroundColor = .white
         
-        print(aboutBackgroundWidht)
-        print(UIScreen.main.bounds.height - 250)
+        setupScene()
     }
     
     

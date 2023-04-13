@@ -10,13 +10,11 @@ import SpriteKit
 
 class JellyNode: SKSpriteNode {
     
-    let textures : [SKTexture] = [
-        SKTexture(imageNamed: "Jelly0"),
-        SKTexture(imageNamed: "Jelly1"),
-        SKTexture(imageNamed: "Jelly2")
-    ]
+    let imageNames = ["Jelly0", "Jelly1", "Jelly2"]
     
     init() {
+        let textures = [SKTexture].loadTextures(from: imageNames)
+        
         super.init(texture: textures[0], color: .clear, size: CGSize(width: 650, height: 650))
         
         name = "Jelly"
