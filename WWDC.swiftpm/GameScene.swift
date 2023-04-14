@@ -41,7 +41,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         addChild(JellyfishNode)
         addChild(collisionNode)
         addChild(distanceIndicator)
-        addChild(distanceLabel1)
+        addChild(distanceLabel)
         addChild(indicator)
         addChild(tutorialNode)
         addChild(backgroundJelly)
@@ -94,7 +94,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         return sprite
     }()
     
-    lazy var distanceLabel1: SKLabelNode = {
+    lazy var distanceLabel: SKLabelNode = {
         let label = SKLabelNode(text: "\(distanceToBeach)m")
         
         let cfURL = Bundle.main.url(forResource: "ShortStack", withExtension: "ttf")! as CFURL
@@ -137,7 +137,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         let oceanNode = SKSpriteNode(texture: textures[0], color: .white, size: CGSize(width: 1100, height: 1100))
         
         oceanNode.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 250)
-        oceanNode.zPosition = 1
+        oceanNode.zPosition = 2
         
         oceanNode.run(.doodleEffect(with: textures))
         
@@ -147,11 +147,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     lazy var  JellyfishNode: JellyNode = {
         
         let jellyNode = JellyNode()
+        jellyNode.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY)
+        
+        jellyNode.run(.move(to: CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY + 450), duration: 0.5))
         
         let sequence = SKAction.sequence([.moveBy(x: 0, y: 10, duration: 1), .moveBy(x: 0, y: -10, duration: 1)])
         jellyNode.run(.repeatForever(sequence))
         
-        jellyNode.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY + 500)
         jellyNode.zPosition = 1
         
         return jellyNode
@@ -227,7 +229,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
             }
             
             obstacle.position = CGPoint(x: -20, y: 0)
-            warning.position = CGPoint(x: obstacleX[randomIndex], y: 1000)
+            warning.position = CGPoint(x: obstacleX[randomIndex], y: 900)
             warning.size = CGSize(width: 200, height: 200)
             warning.zPosition = 5
             
@@ -260,7 +262,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     
     @objc func decrementDistance(){
         distanceToBeach -= 1
-        distanceLabel1.text = "\(distanceToBeach)m"
+        distanceLabel.text = "\(distanceToBeach)m"
         indicator.position.y -= 3.2
         
         if distanceToBeach == 90 {
@@ -304,7 +306,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         tutorialNode.run(movePlayer)
         playerLane += playerLaneDelta
     }
-
 
     private func getPlayerLaneDelta(for direction: UISwipeGestureRecognizer.Direction) -> Int? {
         switch direction {

@@ -24,7 +24,7 @@ class VictoryScene: SKScene {
         CTFontManagerRegisterFontsForURL(cfURL, CTFontManagerScope.process, nil)
 
         
-        label.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY + 150)
+        label.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY + 250)
         label.fontColor = .black
         label.horizontalAlignmentMode = .center
         label.fontSize = 100
@@ -47,14 +47,27 @@ class VictoryScene: SKScene {
     }()
     
     lazy var backToMenuButton: ButtonNode = {
-        let button = ButtonNode(buttonType: .about) { [weak self] in
+        let button = ButtonNode(buttonType: .menu) { [weak self] in
             self?.view?.presentScene(MainMenuScene.newScene())
         }
         
-        button.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 150)
+        button.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 330)
         button.zPosition = 1
         
         return button
+    }()
+    
+    lazy var winNodePose: SKSpriteNode = {
+        let imageNames = ["winBoy0", "winBoy1"]
+        
+        let texture = [SKTexture].loadTextures(from: imageNames)
+        
+        let sprite = SKSpriteNode(texture: texture[0], size: CGSize(width: 400, height: 400))
+        
+        sprite.position = CGPoint(x: size.width / 2, y: UIScreen.main.bounds.midY)
+        
+        sprite.run(.repeatForever(.animate(with: texture, timePerFrame: 0.15)))
+        return sprite
     }()
     
     func setupScene(){
@@ -63,6 +76,7 @@ class VictoryScene: SKScene {
         
         addChild(endLabel)
         addChild(backToMenuButton)
+        addChild(winNodePose)
     }
     
     override func didMove(to view: SKView) {

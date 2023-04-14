@@ -9,7 +9,7 @@ import Foundation
 import SpriteKit
 
 enum ButtonType {
-    case play, about, arrowRight, playAgain
+    case play, about, arrowRight, playAgain, menu
 }
 
 class ButtonNode: SKSpriteNode {
@@ -54,6 +54,15 @@ class ButtonNode: SKSpriteNode {
                 SKTexture(imageNamed: "buttonPlayAgain0"),
                 SKTexture(imageNamed: "buttonPlayAgain1"),
                 SKTexture(imageNamed: "buttonPlayAgain2"),
+            ]
+            
+            texture = buttonAnimation[0]
+            textureAnimation = buttonAnimation
+        case .menu:
+            let buttonAnimation : [SKTexture] = [
+                SKTexture(imageNamed: "menu0"),
+                SKTexture(imageNamed: "menu1"),
+                SKTexture(imageNamed: "menu2"),
             ]
             
             texture = buttonAnimation[0]

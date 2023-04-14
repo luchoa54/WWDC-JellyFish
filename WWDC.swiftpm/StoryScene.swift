@@ -14,13 +14,8 @@ class StoryScene: SKScene {
         "It was a beautiful day for a swim in the sea, so Luciano and his family decided to go to the beach to relax",
         "Everything was going well, the waves were strangely calm , however during his bath, Luciano came across something unexpected...",
         "A giant Jellyfish appears in the middle of the open sea and begins to chase Luciano, who flees into his father's arms..."]
-    var textures3: [SKTexture] = [
-        SKTexture(imageNamed: "story6"),
-        SKTexture(imageNamed: "story7"),
-        SKTexture(imageNamed: "story8")
-    ]
     
-    var storyIndex = 0
+    var currentStoryImageIndex = 0
     
     class func newScene() -> StoryScene {
         let scene = StoryScene(size: CGSize(width: UIScreen.main.bounds.width, height: UIScreen.main.bounds.height))
@@ -28,21 +23,11 @@ class StoryScene: SKScene {
         return scene
     }
     
-    lazy var storyImage: SKShapeNode = {
-        let shape = SKShapeNode(rectOf: CGSize(width: 950, height: 800), cornerRadius: 10)
+    lazy var storyImage1: SKSpriteNode = {
         
-        shape.position = CGPoint(x: size.width / 2, y: UIScreen.main.bounds.midY + 230)
-        shape.fillColor = .black
+        let imageNames = ["story0", "story1", "story2"]
         
-        return shape
-    }()
-    
-    lazy var storyImage3: SKSpriteNode = {
-        let texture : [SKTexture] = [
-            SKTexture(imageNamed: "story6"),
-            SKTexture(imageNamed: "story7"),
-            SKTexture(imageNamed: "story8")
-        ]
+        let texture = [SKTexture].loadTextures(from: imageNames)
         
         let sprite = SKSpriteNode(texture: texture[0], size: CGSize(width: 950, height: 800))
         
@@ -52,7 +37,41 @@ class StoryScene: SKScene {
         return sprite
     }()
     
-    lazy var storyBar : SKSpriteNode = {
+    lazy var storyImage2: SKSpriteNode = {
+        
+        let imageNames = ["story3", "story4", "story5"]
+        
+        let texture = [SKTexture].loadTextures(from: imageNames)
+        
+        let sprite = SKSpriteNode(texture: texture[0], size: CGSize(width: 950, height: 800))
+        
+        sprite.position = CGPoint(x: size.width / 2, y: UIScreen.main.bounds.midY + 230)
+        
+        sprite.run(.repeatForever(.animate(with: texture, timePerFrame: 0.15)))
+        
+        sprite.isHidden = true
+        
+        return sprite
+    }()
+    
+    lazy var storyImage3: SKSpriteNode = {
+        
+        let imageNames = ["story6", "story7", "story8"]
+        
+        let texture = [SKTexture].loadTextures(from: imageNames)
+        
+        let sprite = SKSpriteNode(texture: texture[0], size: CGSize(width: 950, height: 800))
+        
+        sprite.position = CGPoint(x: size.width / 2, y: UIScreen.main.bounds.midY + 230)
+        
+        sprite.run(.repeatForever(.animate(with: texture, timePerFrame: 0.15)))
+        
+        sprite.isHidden = true
+        
+        return sprite
+    }()
+    
+    lazy var storyChatBoxNode : SKSpriteNode = {
         
         let texture : [SKTexture] = [
             SKTexture(imageNamed: "storyBar0"),
@@ -68,9 +87,8 @@ class StoryScene: SKScene {
         return sprite
     }()
     
-    
-    lazy var storyLabel : SKLabelNode = {
-        let label = SKLabelNode(text: "\(storySession[storyIndex])")
+    lazy var storyTextLabel : SKLabelNode = {
+        let label = SKLabelNode(text: "\(storySession[currentStoryImageIndex])")
         
         let cfURL = Bundle.main.url( forResource: "ShortStack", withExtension:
         "ttf")! as CFURL
@@ -90,10 +108,10 @@ class StoryScene: SKScene {
         return label
     }()
     
-    lazy var rightArrow: ButtonNode = {
+    lazy var rightArrowButton: ButtonNode = {
         let transition = SKTransition.crossFade(withDuration: 0.5)
         let button = ButtonNode(buttonType: .arrowRight) { [weak self] in
-            self?.storyIndex += 1
+            self?.currentStoryImageIndex += 1
         }
         
         button.position = CGPoint(x: UIScreen.main.bounds.midX, y:UIScreen.main.bounds.midY - 550)
@@ -119,32 +137,40 @@ class StoryScene: SKScene {
     
     
     override func didMove(to view: SKView) {
+        
+        setupScene()
+    }
+    
+    func setupScene() {
         backgroundColor = .white
         
-        addChild(storyBar)
-        storyBar.addChild(storyLabel)
-        addChild(rightArrow)
+        addChild(storyChatBoxNode)
+        storyChatBoxNode.addChild(storyTextLabel)
+        addChild(rightArrowButton)
         addChild(nextSceneButton)
+        addChild(storyImage1)
+        addChild(storyImage2)
         addChild(storyImage3)
-        addChild(storyImage)
-        
-        storyImage3.isHidden = true
     }
     
     override func update(_ currentTime: TimeInterval) {
         
-        if storyIndex < 3{
-            storyLabel.text = "\(storySession[storyIndex])"
+        if currentStoryImageIndex < 3{
+            storyTextLabel.text = "\(storySession[currentStoryImageIndex])"
         }
         
-        if storyIndex == 2 {
-            rightArrow.isHidden = true
-            nextSceneButton.isHidden = false
-            storyImage.removeFromParent()
+        switch currentStoryImageIndex {
+        case 1:
+            storyImage1.removeFromParent()
+            storyImage2.isHidden = false
+        case 2:
             storyImage3.isHidden = false
-        }else {
-            rightArrow.isHidden = false
-            nextSceneButton.isHidden = true
+            storyImage2.removeFromParent()
+            rightArrowButton.removeFromParent()
+            nextSceneButton.isHidden = false
+        default:
+            break
         }
+
     }
 }
