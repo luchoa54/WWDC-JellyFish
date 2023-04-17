@@ -91,7 +91,7 @@ class StoryScene: SKScene {
         let label = SKLabelNode(text: "\(storySession[currentStoryImageIndex])")
         
         let cfURL = Bundle.main.url( forResource: "ShortStack", withExtension:
-        "ttf")! as CFURL
+                                        "ttf")! as CFURL
         
         CTFontManagerRegisterFontsForURL(cfURL,CTFontManagerScope.process,nil)
         
@@ -135,6 +135,12 @@ class StoryScene: SKScene {
         return button
     }()
     
+    lazy var musicNode: SKAudioNode = {
+        let music = SKAudioNode(fileNamed: "mistery")
+        music.autoplayLooped = false
+        
+        return music
+    }()
     
     override func didMove(to view: SKView) {
         
@@ -151,6 +157,7 @@ class StoryScene: SKScene {
         addChild(storyImage1)
         addChild(storyImage2)
         addChild(storyImage3)
+        addChild(musicNode)
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -171,6 +178,6 @@ class StoryScene: SKScene {
         default:
             break
         }
-
+        
     }
 }

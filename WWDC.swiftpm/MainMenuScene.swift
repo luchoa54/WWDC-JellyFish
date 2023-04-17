@@ -62,6 +62,7 @@ class MainMenuScene: SKScene {
         addChild(backgroundImage)
         addChild(playButton)
         addChild(aboutButton)
+        
     }
     
     override func didMove(to view: SKView) {

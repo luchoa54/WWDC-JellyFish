@@ -83,6 +83,9 @@ class ButtonNode: SKSpriteNode {
     }
     
     override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
-        action()
+        let randomSoundFxFile = Int.random(in: 1...3)
+        self.run(.playSoundFileNamed("page-flip-0\(randomSoundFxFile)", waitForCompletion: false)){ [weak self] in
+            self!.action()
+        }
     }
 }

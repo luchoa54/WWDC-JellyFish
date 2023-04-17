@@ -77,6 +77,10 @@ class VictoryScene: SKScene {
         addChild(endLabel)
         addChild(backToMenuButton)
         addChild(winNodePose)
+        
+        run(.playSoundFileNamed("win", waitForCompletion: false))
+        
+//        Music by Hot_Music from Pixabay
     }
     
     override func didMove(to view: SKView) {

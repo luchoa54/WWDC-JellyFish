@@ -45,6 +45,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         addChild(indicator)
         addChild(tutorialNode)
         addChild(backgroundJelly)
+        addChild(musicNode)
         
         let startSpawn = SKAction.sequence([.wait(forDuration: 3), .run { [weak self] in
             self?.spawnObstacle()
@@ -52,6 +53,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         
         run(startSpawn)
         startDistanceCount()
+        
+        
     }
     
     func addSwipeGestureRecognizer(){
@@ -163,7 +166,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         
         let player = PlayerNode()
         player.position = CGPoint(x: UIScreen.main.bounds.midX + 40, y: UIScreen.main.bounds.midY - 220)
-        player.zPosition = 2
+        player.zPosition = 3
         
         let animationSequence = SKAction.sequence([.wait(forDuration: 3), .run(tutorialNode.removeFromParent)])
         
@@ -182,7 +185,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         
         tutorialNode.position = CGPoint(x: UIScreen.main.bounds.midX + 70, y: UIScreen.main.bounds.midY - 390)
         tutorialNode.run(.repeatForever(.animate(with: textures, timePerFrame: 0.1)))
-        tutorialNode.zPosition = 2
+        
+        tutorialNode.zPosition = 3
         
         return tutorialNode
     }()
@@ -204,6 +208,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         collisionNode.physicsBody = body
         
         return collisionNode
+    }()
+    
+    lazy var musicNode : SKAudioNode = {
+        let music = SKAudioNode(fileNamed: "gameMusic")
+        
+        return music
     }()
     
     func spawnObstacle(){
@@ -305,8 +315,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         
         tutorialNode.run(movePlayer)
         playerLane += playerLaneDelta
+        
+        run(.playSoundFileNamed("swipe", waitForCompletion: false))
     }
 
+    override func willMove(from view: SKView) {
+        musicNode.run(SKAction.stop())
+        musicNode.run(SKAction.changeVolume(to: 1, duration: 0))
+    }
+    
     private func getPlayerLaneDelta(for direction: UISwipeGestureRecognizer.Direction) -> Int? {
         switch direction {
         case .left:
