@@ -63,7 +63,7 @@ class AboutScene: SKScene {
     }()
     
     lazy var nameLabel: SKLabelNode = {
-        let label = SKLabelNode(text: "Hi! I'm Luciano :)")
+        let label = SKLabelNode(text: "Hey! I'm Luciano, a software engineering student :)")
         
         let cfURL = Bundle.main.url( forResource: "ShortStack", withExtension:
                                         "ttf")! as CFURL
@@ -71,12 +71,12 @@ class AboutScene: SKScene {
         CTFontManagerRegisterFontsForURL(cfURL,CTFontManagerScope.process,nil)
         
         
-        label.fontSize = 60
+        label.fontSize = 50
         label.horizontalAlignmentMode = .center
         label.verticalAlignmentMode = .center
         label.lineBreakMode = .byWordWrapping
         label.numberOfLines = 0
-        label.preferredMaxLayoutWidth = UIScreen.main.bounds.width - 160
+        label.preferredMaxLayoutWidth = UIScreen.main.bounds.width - 360
         label.fontName = "ShortStack"
         label.position = CGPoint(x: 600, y: 1000)
         label.fontColor = .black
@@ -85,7 +85,7 @@ class AboutScene: SKScene {
     }()
     
     lazy var textLabel1: SKLabelNode = {
-        let label = SKLabelNode(text: "Thank you for experiencing this adventure together with me! \n\nThis project aims to show how a child's creative mind is capable of turning terrible real-life events into great fantasy tales!")
+        let label = SKLabelNode(text: "Thank you for experiencing this adventure together with me!")
         
         let cfURL = Bundle.main.url( forResource: "ShortStack", withExtension:
                                         "ttf")! as CFURL
@@ -100,14 +100,14 @@ class AboutScene: SKScene {
         label.numberOfLines = 0
         label.preferredMaxLayoutWidth = UIScreen.main.bounds.width - 160
         label.fontName = "ShortStack"
-        label.position = CGPoint(x: aboutBackgroundWidht / 12.5, y: 780)
+        label.position = CGPoint(x: aboutBackgroundWidht / 12.5, y: 800)
         label.fontColor = .black
         
         return label
     }()
     
     lazy var textLabel2: SKLabelNode = {
-        let label = SKLabelNode(text: "This idea came up in a family conversation, where I told the story that happened to me on a trip to Maceió (where I suffered burns from a group of jellyfish), and after telling my niece, she made a drawing inspired by this story, and I brought this drawing to life!")
+        let label = SKLabelNode(text: "Have you ever managed to make the best of a bad event?       I had the exact same experience while having a family conversation.  I related the incident of my trip to Maceió, where I got severely burned by a bunch of jellyfish. But instead of focusing on the bad, my niece was motivated to sketch a picture based on the narrative. The magic took place there, in that case. Together, we brought the drawing to life, transforming a difficult experience into a lovely and motivational project. This experience has shown me the value of teamwork and the limitless potential of creativity. I hope it motivates you as well!")
         
         let cfURL = Bundle.main.url( forResource: "ShortStack", withExtension:
                                         "ttf")! as CFURL
@@ -144,7 +144,7 @@ class AboutScene: SKScene {
         label.numberOfLines = 0
         label.preferredMaxLayoutWidth = UIScreen.main.bounds.width - 160
         label.fontName = "ShortStack"
-        label.position = CGPoint(x: aboutBackgroundWidht / 12.5, y: 380)
+        label.position = CGPoint(x: aboutBackgroundWidht / 12.5, y: 320)
         label.fontColor = .black
         
         return label
@@ -166,7 +166,7 @@ class AboutScene: SKScene {
         label.numberOfLines = 0
         label.preferredMaxLayoutWidth = UIScreen.main.bounds.width - 160
         label.fontName = "ShortStack"
-        label.position = CGPoint(x: aboutBackgroundWidht / 12.5, y: 230)
+        label.position = CGPoint(x: aboutBackgroundWidht / 12.5, y: 220)
         label.fontColor = .black
         
         return label

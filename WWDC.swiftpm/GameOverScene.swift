@@ -17,18 +17,18 @@ class GameOverScene: SKScene {
     }
     
     lazy var endLabel: SKLabelNode = {
-        let label = SKLabelNode(text: "  You failed to escape the \nQueen Jellyfish's tentacles")
+        let label = SKLabelNode(text: "     You failed to escape the \ntentacles of the Jellyfish Queen")
         
         let cfURL = Bundle.main.url(forResource: "ShortStack", withExtension: "ttf")! as CFURL
 
         CTFontManagerRegisterFontsForURL(cfURL, CTFontManagerScope.process, nil)
-
         
-        label.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY + 250)
+        label.position = CGPoint(x: size.width / 2, y: UIScreen.main.bounds.midY - 200)
+//        label.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY + 250)
         label.fontColor = .black
         label.horizontalAlignmentMode = .center
         label.lineBreakMode = .byWordWrapping
-        label.fontSize = 60
+        label.fontSize = 50
         label.numberOfLines = 2
         label.fontName = "ShortStack"
         label.zPosition = 2
@@ -52,7 +52,7 @@ class GameOverScene: SKScene {
             self?.view?.presentScene(MainMenuScene.newScene())
         }
         
-        button.position = CGPoint(x: UIScreen.main.bounds.midX - 10, y: UIScreen.main.bounds.midY - 500)
+        button.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY - 500)
         button.zPosition = 1
         
         return button
@@ -73,7 +73,8 @@ class GameOverScene: SKScene {
         
         let jellyNode = JellyNode()
         
-        jellyNode.position = CGPoint(x: size.width / 2, y: UIScreen.main.bounds.midY)
+//        jellyNode.position = CGPoint(x: size.width / 2, y: UIScreen.main.bounds.midY)
+        jellyNode.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY + 250)
         
         return jellyNode
     }()
@@ -86,6 +87,8 @@ class GameOverScene: SKScene {
         addChild(retryButton)
         addChild(backToMenuButton)
         addChild(JellyfishNode)
+        
+        run(.playSoundFileNamed("lose", waitForCompletion: false))
     }
     
     override func didMove(to view: SKView) {

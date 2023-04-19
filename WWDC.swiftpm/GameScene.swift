@@ -53,8 +53,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         
         run(startSpawn)
         startDistanceCount()
-        
-        
     }
     
     func addSwipeGestureRecognizer(){

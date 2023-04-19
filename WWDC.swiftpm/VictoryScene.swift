@@ -17,18 +17,40 @@ class VictoryScene: SKScene {
     }
     
     lazy var endLabel: SKLabelNode = {
-        let label = SKLabelNode(text: "You escaped \n    safely!")
+        let label = SKLabelNode(text: "You escaped safely!")
         
         let cfURL = Bundle.main.url(forResource: "ShortStack", withExtension: "ttf")! as CFURL
 
         CTFontManagerRegisterFontsForURL(cfURL, CTFontManagerScope.process, nil)
 
         
-        label.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY + 250)
+//        label.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY + 250)
+        label.position = CGPoint(x: size.width / 2, y: UIScreen.main.bounds.midY - 100)
         label.fontColor = .black
         label.horizontalAlignmentMode = .center
-        label.fontSize = 100
+        label.fontSize = 70
         label.numberOfLines = 2
+        label.fontName = "ShortStack"
+        label.zPosition = 2
+        
+        return label
+    }()
+    
+    lazy var endLabel1: SKLabelNode = {
+        let label = SKLabelNode(text: "If you curious about the origin of this story, \n    check out the about page in the menu!")
+        
+        let cfURL = Bundle.main.url(forResource: "ShortStack", withExtension: "ttf")! as CFURL
+
+        CTFontManagerRegisterFontsForURL(cfURL, CTFontManagerScope.process, nil)
+
+        
+        label.position = CGPoint(x: size.width / 2, y: UIScreen.main.bounds.midY - 150)
+        label.fontColor = .black
+        label.verticalAlignmentMode = .center
+        label.horizontalAlignmentMode = .center
+        label.fontSize = 30
+        label.numberOfLines = 0
+        label.preferredMaxLayoutWidth = UIScreen.main.bounds.width
         label.fontName = "ShortStack"
         label.zPosition = 2
         
@@ -64,7 +86,8 @@ class VictoryScene: SKScene {
         
         let sprite = SKSpriteNode(texture: texture[0], size: CGSize(width: 400, height: 400))
         
-        sprite.position = CGPoint(x: size.width / 2, y: UIScreen.main.bounds.midY)
+        sprite.position = CGPoint(x: UIScreen.main.bounds.midX, y: UIScreen.main.bounds.midY + 210)
+//        sprite.position = CGPoint(x: size.width / 2, y: UIScreen.main.bounds.midY + 50)
         
         sprite.run(.repeatForever(.animate(with: texture, timePerFrame: 0.15)))
         return sprite
@@ -75,6 +98,7 @@ class VictoryScene: SKScene {
         backgroundColor = .white
         
         addChild(endLabel)
+        addChild(endLabel1)
         addChild(backToMenuButton)
         addChild(winNodePose)
         
