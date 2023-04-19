@@ -37,7 +37,7 @@ class VictoryScene: SKScene {
     }()
     
     lazy var endLabel1: SKLabelNode = {
-        let label = SKLabelNode(text: "If you curious about the origin of this story, \n    check out the about page in the menu!")
+        let label = SKLabelNode(text: "If you are curious about the origin of this story, \n    check out the about page in the menu!")
         
         let cfURL = Bundle.main.url(forResource: "ShortStack", withExtension: "ttf")! as CFURL
 

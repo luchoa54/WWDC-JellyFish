@@ -85,7 +85,7 @@ class AboutScene: SKScene {
     }()
     
     lazy var textLabel1: SKLabelNode = {
-        let label = SKLabelNode(text: "Thank you for experiencing this adventure together with me!")
+        let label = SKLabelNode(text: "  Thank you for experiencing this adventure together with me!")
         
         let cfURL = Bundle.main.url( forResource: "ShortStack", withExtension:
                                         "ttf")! as CFURL
@@ -100,14 +100,14 @@ class AboutScene: SKScene {
         label.numberOfLines = 0
         label.preferredMaxLayoutWidth = UIScreen.main.bounds.width - 160
         label.fontName = "ShortStack"
-        label.position = CGPoint(x: aboutBackgroundWidht / 12.5, y: 800)
+        label.position = CGPoint(x: aboutBackgroundWidht / 12.5, y: 840)
         label.fontColor = .black
         
         return label
     }()
     
     lazy var textLabel2: SKLabelNode = {
-        let label = SKLabelNode(text: "Have you ever managed to make the best of a bad event?       I had the exact same experience while having a family conversation.  I related the incident of my trip to Maceió, where I got severely burned by a bunch of jellyfish. But instead of focusing on the bad, my niece was motivated to sketch a picture based on the narrative. The magic took place there, in that case. Together, we brought the drawing to life, transforming a difficult experience into a lovely and motivational project. This experience has shown me the value of teamwork and the limitless potential of creativity. I hope it motivates you as well!")
+        let label = SKLabelNode(text: "  Have you ever turned a negative experience into something positive? That's exactly what happened to me during a family conversation. \n\n  I shared the story of my trip to Maceió, where I suffered painful burns from a group of jellyfish. But instead of dwelling on the negative, my niece was inspired to create a drawing based on the story. And that's where the magic happened. Together, we brought the drawing to life, turning a painful memory into a beautiful and inspiring project. \n\n  This experience has taught me the power of collaboration and the endless possibilities of creativity. I hope it inspires you too!")
         
         let cfURL = Bundle.main.url( forResource: "ShortStack", withExtension:
                                         "ttf")! as CFURL
@@ -129,7 +129,7 @@ class AboutScene: SKScene {
     }()
     
     lazy var textLabel3: SKLabelNode = {
-        let label = SKLabelNode(text: "Use your skill and agility to safely escape the JellyFish Queen, dodging its attacks by swiping left or right with your finger.")
+        let label = SKLabelNode(text: "  Use your skill and agility to safely escape the JellyFish Queen, dodging its attacks by swiping left or right with your finger.")
         
         let cfURL = Bundle.main.url( forResource: "ShortStack", withExtension:
                                         "ttf")! as CFURL
@@ -144,14 +144,14 @@ class AboutScene: SKScene {
         label.numberOfLines = 0
         label.preferredMaxLayoutWidth = UIScreen.main.bounds.width - 160
         label.fontName = "ShortStack"
-        label.position = CGPoint(x: aboutBackgroundWidht / 12.5, y: 320)
+        label.position = CGPoint(x: aboutBackgroundWidht / 12.5, y: 300)
         label.fontColor = .black
         
         return label
     }()
     
     lazy var textLabel4: SKLabelNode = {
-        let label = SKLabelNode(text: "I hope you enjoyed it, and that I did my niece Clarinha's artistic skills justice! :)")
+        let label = SKLabelNode(text: "  I hope you enjoyed it, and that I did my niece Clarinha's artistic skills justice! :)")
         
         let cfURL = Bundle.main.url( forResource: "ShortStack", withExtension:
                                         "ttf")! as CFURL
@@ -166,7 +166,7 @@ class AboutScene: SKScene {
         label.numberOfLines = 0
         label.preferredMaxLayoutWidth = UIScreen.main.bounds.width - 160
         label.fontName = "ShortStack"
-        label.position = CGPoint(x: aboutBackgroundWidht / 12.5, y: 220)
+        label.position = CGPoint(x: aboutBackgroundWidht / 12.5, y: 200)
         label.fontColor = .black
         
         return label

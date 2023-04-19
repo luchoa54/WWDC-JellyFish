@@ -108,7 +108,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         label.fontSize = 50
         label.numberOfLines = 2
         label.fontName = "ShortStack"
-        label.zPosition = 2
+        label.zPosition = 3
         
         return label
     }()
@@ -179,12 +179,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
         
         let textures = [SKTexture].loadTextures(from: imageNames)
         
-        let tutorialNode = SKSpriteNode(texture: textures[0], color: .clear, size: CGSize(width: 200, height: 200))
+        let tutorialNode = SKSpriteNode(texture: textures[0], color: .clear, size: CGSize(width: 300, height: 300))
         
-        tutorialNode.position = CGPoint(x: UIScreen.main.bounds.midX + 70, y: UIScreen.main.bounds.midY - 390)
+        tutorialNode.position = CGPoint(x: UIScreen.main.bounds.midX + 70, y: UIScreen.main.bounds.midY - 490)
         tutorialNode.run(.repeatForever(.animate(with: textures, timePerFrame: 0.1)))
         
         tutorialNode.zPosition = 3
+        
+        let sequence = SKAction.sequence([.moveTo(x: 240, duration: 1),
+                                          .moveTo(x: 540, duration: 1),
+                                          .moveTo(x: 840, duration: 1),])
+        
+        tutorialNode.run(sequence)
         
         return tutorialNode
     }()
@@ -319,7 +325,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
 
     override func willMove(from view: SKView) {
         musicNode.run(SKAction.stop())
-        musicNode.run(SKAction.changeVolume(to: 1, duration: 0))
     }
     
     private func getPlayerLaneDelta(for direction: UISwipeGestureRecognizer.Direction) -> Int? {
@@ -348,7 +353,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate{
     
     public func testContactPlayerWithObstacle(_ contactMaks:UInt32, contact: SKPhysicsContact) {
         if contactMaks == .player | .obstacle {
-            view?.presentScene(GameOverScene.newScene())
+            let transition = SKTransition.crossFade(withDuration: 0.5)
+            view?.presentScene(GameOverScene.newScene(), transition: transition)
         }
     }
 }
